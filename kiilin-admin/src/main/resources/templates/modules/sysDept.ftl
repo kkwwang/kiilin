@@ -102,7 +102,7 @@
       accordion
       show-checkbox
       :default-checked-keys="[formData.parentId]"
-      :default-expanded-keys=="[formData.parentId]"
+      :default-expanded-keys="[formData.parentId]"
       check-strictly
       :filter-node-method="filterNode"
       ref="deptTreeRef"
