@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiilin.modules.dao.SysUserDeptDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kiilin.modules.pojo.dto.SysUserDept">
+
+        <id column="id" property="id"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="delFlag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+        <result column="userId" property="userId"/>
+        <result column="deptId" property="deptId"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        <!-- 公共字段 -->
+        `id` AS `id`,
+        `create_by` AS `createBy`,
+        `create_time` AS `createTime`,
+        `update_by` AS `updateBy`,
+        `update_time` AS `updateTime`,
+        `del_flag` AS `delFlag`,
+        `remark` AS `remark`,
+        <!-- 普通字段 -->
+        `user_id` AS `userId`,
+        `dept_id` AS `deptId`
+    </sql>
+
+    <delete id="deleteByUserId">
+        DELETE FROM sys_user_dept WHERE user_id = #{userId}
+    </delete>
+
+
+    <select id="getUserDeptList" resultType="com.kiilin.modules.pojo.dto.SysDept">
+        SELECT
+            d.*
+        FROM
+            sys_user_dept ud
+        JOIN sys_dept d ON ud.dept_id = d.id
+        AND d.del_flag = FALSE
+        WHERE
+            ud.user_id = #{userId}
+        AND ud.del_flag = FALSE
+    </select>
+
+</mapper>

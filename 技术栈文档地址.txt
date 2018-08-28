@@ -1,0 +1,13 @@
+前端：
+element-ui：     http://element-cn.eleme.io/#/zh-CN/component/installation
+数据校验：        https://github.com/yiminghe/async-validator
+vue.js：         https://cn.vuejs.org/v2/guide/
+datatables：     http://datatables.club/
+
+
+后台：
+springboot：
+mybatis：
+mybatis-plus：   http://mp.baomidou.com/#/?id=%E7%AE%80%E4%BB%8B
+swagger2：       https://blog.csdn.net/u014231523/article/details/76522486
+                 https://blog.csdn.net/xupeng874395012/article/details/68946676

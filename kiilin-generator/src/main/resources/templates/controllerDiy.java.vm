@@ -1,0 +1,125 @@
+package $!{package.Controller};
+
+
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+import com.kiilin.common.abstracts.result.ServiceResult;
+import com.kiilin.common.annotation.SysLog;
+import com.kiilin.common.datatables.DataTablePager;
+import com.kiilin.common.validator.ValidatorUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import lombok.extern.slf4j.Slf4j;
+
+## 实体
+import $!{package.Entity}.$!{entity};
+import $!{package.Service}.$!{table.serviceName};
+
+#if($!{restControllerStyle})
+import org.springframework.web.bind.annotation.RestController;
+#else
+import org.springframework.stereotype.Controller;
+#end
+#if($!{superControllerClassPackage})
+import $!{superControllerClassPackage};
+#end
+
+/**
+ * $!{table.comment} 前端控制器
+ *
+ * @author $!{author}
+ * @since $!{date}
+ */
+@Slf4j
+#if($!{restControllerStyle})
+@RestController
+#else
+@Controller
+#end
+@RequestMapping("#if($!{package.ModuleName})/$!{package.ModuleName}#end/#if($!{controllerMappingHyphenStyle})$!{controllerMappingHyphen}#else$!{table.entityPath}#end")
+#if($!{kotlin})
+class $!{table.controllerName}#if($!{superControllerClass}) : $!{superControllerClass}()#end
+
+#else
+#if($!{superControllerClass})
+public class $!{table.controllerName} extends $!{superControllerClass} {
+#else
+public class $!{table.controllerName} {
+#end
+
+
+    @Autowired
+    $!{table.serviceName} $!{table.entityPath}Service;
+
+    /**
+     * 分页
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping("list")
+    @RequiresPermissions("$!{table.entityPath}:list")
+    public DataTablePager getPage(@RequestBody Map model) {
+
+        // 调用查询
+        DataTablePager< $!{entity}> page = $!{table.entityPath}Service.selectPage(model);
+        return page;
+    }
+
+    /**
+     * 查询单条记录
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping("/info")
+    @RequiresPermissions("$!{table.entityPath}:info")
+    public ServiceResult info(String id) {
+
+        // 调用查询
+        $!{entity} info = $!{table.entityPath}Service.selectById(id);
+        return ServiceResult.success(info);
+    }
+
+
+    /**
+     * 修改或新增 $!{table.comment}
+     *
+     * @param $!{table.entityPath}
+     * @return
+     */
+    @SysLog("修改或新增 $!{table.comment}")
+    @PostMapping("/save")
+    @RequiresPermissions("$!{table.entityPath}:save")
+    public ServiceResult save($!{entity} $!{table.entityPath}) {
+        // 数据校验
+        ValidatorUtils.validateEntity($!{table.entityPath});
+
+        // 调用方法
+        boolean result = $!{table.entityPath}Service.insertOrUpdate($!{table.entityPath});
+        // 返回结果
+        return ServiceResult.success(result);
+    }
+
+    /**
+     * 删除 $!{table.comment}
+     *
+     * @param id
+     * @return
+     */
+    @SysLog("删除 $!{table.comment}")
+    @PostMapping("/del")
+    @RequiresPermissions("$!{table.entityPath}:del")
+    public ServiceResult del(String id) {
+        // 调用方法
+        boolean result = $!{table.entityPath}Service.deleteById(id);
+        // 返回结果
+        return ServiceResult.success(result);
+
+    }
+}
+
+#end

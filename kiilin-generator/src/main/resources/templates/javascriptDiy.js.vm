@@ -1,0 +1,237 @@
+#set ($jq="$")
+#set ($var="[formName]")
+#set ($url="#if($!{package.ModuleName})/$!{package.ModuleName}#end/#if($!{controllerMappingHyphenStyle})$!{controllerMappingHyphen}#else$!{table.entityPath}#end")
+#set ($width = 100 / ($!{table.fields.size()} + $!{table.commonFields.size()}))
+// 表格显示条目 todo 根据实际需要调整
+var columns = [
+  ## id 前置
+##  #foreach($!field in $!{table.commonFields})
+##  #if($!{field.keyFlag})##生成主键排在第一位
+##
+##  {
+##    label: '$!{field.comment}',
+##    data: "$!{field.propertyName}",
+##    name: "$!{field.name}",
+##    width: "$!{width}%"
+##  },
+##  #end
+##  #end
+##  #foreach($!field in $!{table.fields})
+##  #if($!{field.keyFlag})##生成主键排在第一位
+##
+##  {
+##    label: '$!{field.comment}',
+##    data: "$!{field.propertyName}",
+##    name: "$!{field.name}",
+##    width: "$!{width}%"
+##  },
+##  #end
+##  #end
+  #foreach($!field in $!{table.fields})
+  #if(!$!{field.keyFlag})##生成普通字段
+
+  {
+    label: '$!{field.comment}',
+    data: "$!{field.propertyName}",
+    name: "$!{field.name}",
+    width: "$!{width}%"
+  },
+  #end
+  #end
+
+  #foreach($!field in $!{table.commonFields})##生成公共字段(创建时间、备注)
+  #if($!{field.propertyName} == 'createTime' || $!{field.propertyName} == 'remark')##非id字段
+
+  {
+    label: '$!{field.comment}',
+    data: "$!{field.propertyName}",
+    name: "$!{field.name}",
+    width: "$!{width}%"
+  },
+  #end
+  #end
+
+  {
+    label: '操作',
+    orderable: false,
+    className: "td_center none_select",
+    width: "$!{width}%",
+    // 返回自定义操作列
+    render: function (data, type, row, meta) {
+      return $!{jq}.template("html", {
+        template: $!{jq}("#action_btn"),
+        data: {id: row.id}
+      });
+
+    }
+  },
+];
+
+var vm = new Vue({
+  el: '#app',
+  data: {
+    // 编辑标识，用户切换表单和表格
+    edit_flag: false,
+    // 提交中的标识。用户控制提交按钮不可点击
+    submiting: false,
+    // 查询条件，查询时将条件放入该对象即可
+    queryData: {},
+    // datatables对象
+    table: null,
+    // 表单数据
+    formData: {},
+    // 数据校验规则 文档：https://github.com/yiminghe/async-validator todo 按照实际需要调整
+    rules: {
+    #foreach($!field in $!{table.fields})
+
+      $!{field.propertyName}: [
+        {required: true, message: '请填写$!{field.comment}', trigger: 'blur'}
+      ],
+    #end
+
+    }
+  },
+  // 在 `methods` 对象中定义方法
+  methods: {
+    // 查询表格
+    list: function () {
+      vm.table = $!{jq}("#list").tabletools({
+        // 自定义属性
+        ajaxUrl: baseUrl + "$!{url}/list",
+        // 自定义属性
+        ajaxData: vm.queryData,
+        columns: columns,
+        // 默认排序规则， todo 请修改为具体规则
+        order: [[0, 'asc']]
+      });
+    },
+    /**
+     * 新增
+     */
+    add: function () {
+      // 重置 todo 具体默认值需要自行设置
+      vm.formData = {
+      #foreach($!field in $!{table.fields})
+
+        $!{field.propertyName}: null,
+      #end
+
+        remark: null
+      };
+      vm.edit_flag = true;
+      vm.submiting = false;
+
+    },
+    /**
+     * 编辑
+     * @param id
+     */
+    edit: function (id) {
+      vm.submiting = false;
+
+      $!{jq}.ajax({
+        url: baseUrl + "$!{url}/info",
+        data: {id: id},
+        dataType: "json",
+        type: "post",
+        success: function (_result) {
+          if (_result.success) {
+            vm.formData = _result.data;
+            vm.edit_flag = true;
+          } else {
+            alert(_result.error);
+          }
+        },
+        error: function () {
+          alert("查询失败");
+        }
+      });
+    },
+    /**
+     * 提交
+     * @param formName
+     */
+    submit(formName) {
+      this.$!{jq}refs[formName].validate((valid) => {
+        if (valid) {
+          // 校验通过，调用保存
+          vm.submiting = true;
+          vm.save();
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    /**
+     * 保存
+     */
+    save: function () {
+      $!{jq}.ajax({
+        url: baseUrl + "$!{url}/save",
+        data: vm.formData,
+        dataType: "json",
+        type: "post",
+        success: function (_result) {
+          vm.submiting = false;
+          if (_result.success) {
+            alert("保存成功", function () {
+              vm.table.ajaxReload(vm.queryData);
+              vm.edit_flag = false;
+            })
+          } else {
+            alert(_result.error);
+          }
+          },
+        error: function () {
+          alert("保存失败");
+          vm.submiting = false;
+        }
+      });
+    },
+    /**
+     * 重置表单
+     * @param formName
+     */
+    resetForm(formName) {
+      this.$!{jq}refs$!{var}.resetFields();
+    },
+    /**
+     * 删除
+     * @param id
+     */
+    del: function (id) {
+      confirm("确认删除该条记录吗？", function () {
+        $!{jq}.ajax({
+          url: baseUrl + "$!{url}/del",
+          data: {id: id},
+          dataType: "json",
+          type: "post",
+          success: function (_result) {
+            if (_result.success) {
+              alert("删除成功", function () {
+                vm.table.ajaxReload(vm.queryData);
+              })
+            } else {
+              alert(_result.error);
+            }
+          },
+          error: function () {
+            alert("删除失败");
+          }
+        });
+      });
+    },
+    // 取消
+    cancel: function (formName) {
+      vm.resetForm(formName);
+      vm.edit_flag = false;
+    }
+  },
+  // vue创建时执行（钩子）
+  created: function () {
+
+  }
+});
+
+vm.list();

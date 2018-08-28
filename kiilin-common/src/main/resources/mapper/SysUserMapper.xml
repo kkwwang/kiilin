@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiilin.modules.dao.SysUserDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kiilin.modules.pojo.dto.SysUser">
+
+        <id column="id" property="id"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="delFlag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+        <result column="username" property="username"/>
+        <result column="loginName" property="loginName"/>
+        <result column="salt" property="salt"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="sex" property="sex"/>
+        <result column="photo" property="photo"/>
+        <result column="sign" property="sign"/>
+        <result column="wxOpenid" property="wxOpenid"/>
+        <result column="userType" property="userType"/>
+        <result column="lastLoginIp" property="lastLoginIp"/>
+        <result column="lastLoginTime" property="lastLoginTime"/>
+        <result column="status" property="status"/>
+        <result column="deptId" property="deptId"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        <!-- 公共字段 -->
+        `id` AS `id`,
+        `create_by` AS `createBy`,
+        `create_time` AS `createTime`,
+        `update_by` AS `updateBy`,
+        `update_time` AS `updateTime`,
+        `del_flag` AS `delFlag`,
+        `remark` AS `remark`,
+        <!-- 普通字段 -->
+        `username` AS `username`,
+        `login_name` AS `loginName`,
+        `salt` AS `salt`,
+        `password` AS `password`,
+        `email` AS `email`,
+        `mobile` AS `mobile`,
+        `sex` AS `sex`,
+        `photo` AS `photo`,
+        `sign` AS `sign`,
+        `wx_openid` AS `wxOpenid`,
+        `user_type` AS `userType`,
+        `last_login_ip` AS `lastLoginIp`,
+        `last_login_time` AS `lastLoginTime`,
+        `status` AS `status`,
+        `dept_id` AS `deptId`
+    </sql>
+
+
+    <update id="modifyPassword">
+        UPDATE sys_user SET `password` = #{newPassword} WHERE id = #{userId} AND `password` = #{password}
+    </update>
+
+
+    <select id="queryAllPerms" resultType="java.lang.String">
+        SELECT
+            m.permission
+        FROM
+            sys_user u
+        LEFT JOIN sys_user_role ur ON u.id = ur.user_id AND ur.del_flag = FALSE
+        LEFT JOIN sys_role r ON ur.role_id = r.id AND r.del_flag = FALSE
+        LEFT JOIN sys_role_menu rm ON ur.role_id = rm.role_id AND rm.del_flag = FALSE
+        LEFT JOIN sys_menu m ON rm.menu_id = m.id AND m.del_flag = FALSE
+        WHERE
+            u.id = #{userId}
+        AND u.del_flag = FALSE
+        AND m.permission IS NOT NULL
+    </select>
+
+
+</mapper>

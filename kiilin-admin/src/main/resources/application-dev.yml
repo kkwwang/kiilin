@@ -1,0 +1,61 @@
+
+sql:
+    level: debug
+
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            url: jdbc:mysql://localhost:3306/kiilin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8&useOldAliasMetadataBehavior=true
+            username: root
+            password: root
+
+            max-active: 100
+            min-idle: 10
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000
+            validation-query: SELECT 1 FROM DUAL
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            stat-view-servlet:
+                enabled: true
+                url-pattern: /druid/*
+                #login-username: admin
+                #login-password: admin
+
+
+            filter:
+                stat:
+                    log-slow-sql: true
+                    slow-sql-millis: 3000
+                    merge-sql: false
+                wall:
+                    config:
+                        multi-statement-allow: true
+            web-stat-filter:
+              exclusions: /statics/**,*.ico,/druid/**
+
+
+    # lettuce客户端
+    cache:
+        type: redis
+    redis:
+        password:
+        port: 6379
+        host: localhost # server host
+        lettuce:
+            pool:
+                max-idle: 8
+                min-idle: 0
+                max-active: 8
+                max-wait: -1ms
+            shutdown-timeout: 100ms
+    session:
+        store-type: redis
+
+

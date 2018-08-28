@@ -1,0 +1,196 @@
+-- 菜单SQL
+-- 按钮父菜单ID
+SET @parentId = REPLACE (uuid(), '-', '');
+
+INSERT INTO `sys_menu` (
+	`id`,
+	`parent_id`,
+	`parent_ids`,
+	`menu_name`,
+	`menu_level`,
+	`menu_type`,
+	`menu_href`,
+	`menu_target`,
+	`menu_icon`,
+	`permission`,
+	`show_flag`,
+	`sort`,
+	`sys_code`,
+	`create_by`,
+	`create_time`,
+	`update_by`,
+	`update_time`,
+	`del_flag`,
+	`remark`
+)
+    SELECT
+    @parentId,
+    'd2141675914911e88d081831bf4e61cf',
+    '0,d2141675914911e88d081831bf4e61cf,',
+    '$!{table.comment}管理',
+    '2',
+    'menu',
+    'modules/$!{table.entityPath}.html',
+    'main',
+    NULL,
+    NULL,
+    1,
+    1,
+    'pc',
+    NULL,
+    SYSDATE(),
+    NULL,
+    NULL,
+    0,
+    NULL
+;
+
+
+-- 查询上级菜单ids
+SET @temp = (SELECT parent_ids FROM sys_menu WHERE id = (SELECT @parentId));
+-- 去掉最后一个逗号
+SET @parent_parent_ids = LEFT ( @temp, CHAR_LENGTH(@temp) - 1 );
+-- 拼接parent_ids
+SET @new_parent_ids = (SELECT GROUP_CONCAT(temp.parent_ids) FROM ( SELECT @new_parent_ids AS parent_ids UNION ALL SELECT @parentId AS parent_ids) temp);
+
+
+
+-- 本级菜单ID
+SET @menuId = REPLACE (uuid(), '-', '');
+
+INSERT INTO `sys_menu` (
+	`id`,
+	`parent_id`,
+	`parent_ids`,
+	`menu_name`,
+	`menu_level`,
+	`menu_type`,
+	`menu_href`,
+	`menu_target`,
+	`menu_icon`,
+	`permission`,
+	`show_flag`,
+	`sort`,
+	`sys_code`,
+	`create_by`,
+	`create_time`,
+	`update_by`,
+	`update_time`,
+	`del_flag`,
+	`remark`
+)
+    SELECT
+    @menuId,
+    @parentId,
+    @new_parent_ids,
+    '查看',
+    '3',
+    'action',
+    NULL,
+    NULL,
+    NULL,
+    '$!{table.entityPath}:list,$!{table.entityPath}:info',
+    1,
+    NULL,
+    'pc',
+    NULL,
+    SYSDATE(),
+    NULL,
+    NULL,
+    0,
+    NULL
+;
+
+
+-- 本级菜单ID
+SET @menuId = REPLACE (uuid(), '-', '');
+
+INSERT INTO `sys_menu` (
+	`id`,
+	`parent_id`,
+	`parent_ids`,
+	`menu_name`,
+	`menu_level`,
+	`menu_type`,
+	`menu_href`,
+	`menu_target`,
+	`menu_icon`,
+	`permission`,
+	`show_flag`,
+	`sort`,
+	`sys_code`,
+	`create_by`,
+	`create_time`,
+	`update_by`,
+	`update_time`,
+	`del_flag`,
+	`remark`
+)
+    SELECT
+    @menuId,
+    @parentId,
+    @new_parent_ids,
+    '修改或新增',
+    '3',
+    'action',
+    NULL,
+    NULL,
+    NULL,
+    '$!{table.entityPath}:save',
+    1,
+    NULL,
+    'pc',
+    NULL,
+    SYSDATE(),
+    NULL,
+    NULL,
+    0,
+    NULL
+;
+
+
+-- 本级菜单ID
+SET @menuId = REPLACE (uuid(), '-', '');
+
+INSERT INTO `sys_menu` (
+	`id`,
+	`parent_id`,
+	`parent_ids`,
+	`menu_name`,
+	`menu_level`,
+	`menu_type`,
+	`menu_href`,
+	`menu_target`,
+	`menu_icon`,
+	`permission`,
+	`show_flag`,
+	`sort`,
+	`sys_code`,
+	`create_by`,
+	`create_time`,
+	`update_by`,
+	`update_time`,
+	`del_flag`,
+	`remark`
+)
+    SELECT
+    @menuId,
+    @parentId,
+    @new_parent_ids,
+    '删除',
+    '3',
+    'action',
+    NULL,
+    NULL,
+    NULL,
+    '$!{table.entityPath}:del',
+    1,
+    NULL,
+    'pc',
+    NULL,
+    SYSDATE(),
+    NULL,
+    NULL,
+    0,
+    NULL
+;

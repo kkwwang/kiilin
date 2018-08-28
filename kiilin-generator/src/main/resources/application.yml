@@ -1,0 +1,106 @@
+
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            url: jdbc:mysql://localhost:3306/kiilin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+            username: root
+            password: root
+
+
+generator:
+    # 全局 相关配置
+    globalConfig:
+        # 生成文件的输出目录【默认 D 盘根目录】
+        # outputDir: D://kiilin-generator-code
+        # outputDir: kiilin-generator\src\main\java
+        outputDir: kiilin-generator\target\generated-sources\src\main\java
+        # 是否覆盖已有文件
+        fileOverride: true
+        # 是否打开输出目录
+        open: false
+        # 是否在xml中添加二级缓存配置【默认 true 】
+        enableCache: false
+        # 作者
+        author: @env.USERNAME@
+        # 开启 Kotlin 模式【默认 false 】
+        kotlin: false
+        # 各层文件名称方式，例如： %Action 生成 UserAction
+        mapperName: "%sDao"
+        xmlName: "%sMapper"
+        serviceName: "%sService"
+        serviceImplName: "%sServiceImpl"
+        controllerName: "%sController"
+        # 开启 baseColumnList
+        baseColumnList: true
+        # 开启 BaseResultMap
+        baseResultMap: true
+        # 开启 activeRecord
+        activeRecord: false
+
+
+    # 数据源配置
+    dataSource:
+        driverName: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/kiilin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: root
+        
+    # 数据库表配置
+    strategy:
+        # 表名、字段名、是否使用下划线命名（默认 false）
+        dbColumnUnderline: true
+        # 表前缀
+        tablePrefix:
+        # 表名生成策略
+        naming: underline_to_camel
+        # fixme 需要生成的表 - 建议配置单表生成，多张表用逗号隔开
+        include: sys_dept, sys_user_dept
+        # 排除生成的表
+        # exclude: qrtz_blob_triggers, qrtz_calendars, qrtz_cron_triggers, qrtz_fired_triggers, qrtz_job_details, qrtz_locks, qrtz_paused_trigger_grps, qrtz_scheduler_state, qrtz_simple_triggers, qrtz_simprop_triggers, qrtz_triggers, schedule_job, schedule_job_log
+        # 使用Lombok
+        entityLombokModel: true
+        # 自定义继承的Entity类全称，带包名
+        superEntityClass: com.kiilin.common.abstracts.dto.AbstractModel
+        # 自定义基础的Entity类，公共字段
+        superEntityColumns: id, del_flag, remark, create_by, create_time, update_by, update_time
+        # 自定义继承的Mapper类全称，带包名
+        superMapperClass: com.kiilin.common.abstracts.dao.AbstractDao
+        # 自定义继承的Service类全称，带包名
+        superServiceClass: com.kiilin.common.abstracts.service.AbstractService
+        # 自定义继承的ServiceImpl类全称，带包名
+        superServiceImplClass: com.kiilin.common.abstracts.service.impl.AbstractServiceImpl
+        # 自定义继承的Controller类全称，带包名
+        superControllerClass: com.kiilin.common.abstracts.controller.AbstractController
+        # 生成 @RestController 控制器
+        restControllerStyle: true
+        
+    # 包 相关配置
+    packageInfo:
+        # 父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
+        parent:
+        entity: com.kiilin.modules.pojo.dto
+        service: com.kiilin.modules.service
+        serviceImpl: com.kiilin.modules.service.impl
+        mapper: com.kiilin.modules.dao
+        xml: mapper
+        controller: com.kiilin.modules.controller
+        
+    # 模板 相关配置
+    template:
+        entity: templates/entityDiy.java.vm
+        service: templates/serviceDiy.java.vm
+        serviceImpl: templates/serviceImplDiy.java.vm
+        mapper: templates/mapperDiy.java.vm
+        xml: templates/mapperDiy.xml.vm
+        controller: templates/controllerDiy.java.vm
+
+
+logging:
+    level:
+        com.kiilin: debug
+        com.baomidou.mybatisplus.generator: debug
+server:
+  port: 9999
+

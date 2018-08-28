@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiilin.modules.dao.SysDictDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kiilin.modules.pojo.dto.SysDict">
+
+        <id column="id" property="id" />
+            <result column="createBy" property="createBy" />
+            <result column="createTime" property="createTime" />
+            <result column="updateBy" property="updateBy" />
+            <result column="updateTime" property="updateTime" />
+            <result column="delFlag" property="delFlag" />
+            <result column="remark" property="remark" />
+            <result column="type" property="type" />
+        <result column="label" property="label" />
+        <result column="value" property="value" />
+        <result column="sort" property="sort" />
+        <result column="sysFlag" property="sysFlag" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        <!-- 公共字段 -->
+            `id` AS `id`,
+            `create_by` AS `createBy`,
+            `create_time` AS `createTime`,
+            `update_by` AS `updateBy`,
+            `update_time` AS `updateTime`,
+            `del_flag` AS `delFlag`,
+            `remark` AS `remark`,
+            <!-- 普通字段 -->
+                `type` AS `type`,
+            `label` AS `label`,
+            `value` AS `value`,
+            `sort` AS `sort`,
+            `sys_flag` AS `sysFlag`
+        </sql>
+
+    <!-- 模拟自行写sql分页 -->
+    <select id="selectPageBySql" resultType="com.kiilin.modules.pojo.dto.SysDict">
+      SELECT * FROM sys_dict
+    </select>
+
+</mapper>

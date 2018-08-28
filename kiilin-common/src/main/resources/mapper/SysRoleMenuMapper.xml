@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiilin.modules.dao.SysRoleMenuDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.kiilin.modules.pojo.dto.SysRoleMenu">
+
+        <id column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="update_by" property="updateBy" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
+        <result column="remark" property="remark" />
+        <result column="role_id" property="roleId" />
+        <result column="menu_id" property="menuId" />
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        <!-- 公共字段 -->
+        `id` AS `id`,
+        `create_by` AS `createBy`,
+        `create_time` AS `createTime`,
+        `update_by` AS `updateBy`,
+        `update_time` AS `updateTime`,
+        `del_flag` AS `delFlag`,
+        `remark` AS `remark`,
+        <!-- 普通字段 -->
+        `role_id` AS `roleId`,
+        `menu_id` AS `menuId`
+    </sql>
+
+    <delete id="deleteByRoleId">
+      DELETE FROM sys_role_menu WHERE role_id = #{roleId}
+    </delete>
+
+
+    <select id="selectRoleMenus" resultType="java.lang.String">
+        SELECT menu_id FROM sys_role_menu WHERE role_id = #{roleId}
+    </select>
+</mapper>
