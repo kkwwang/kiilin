@@ -1,6 +1,8 @@
 sys:
+    name: kiilin
     code: pc
     welcome: index
+
 # Tomcat
 server:
     tomcat:

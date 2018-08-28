@@ -1,4 +1,4 @@
-<#-- @ftlroot ".." -->
+<#-- @ftlroot "../" -->
 <!DOCTYPE html>
 <html>
 <head>
