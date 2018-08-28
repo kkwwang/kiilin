@@ -1,6 +1,6 @@
 /**
  * 利用模板及正则解决js拼接html代码问题
- * @version 1.0.1
+ * @version v1.0.1
  * @author wangkai
  *
  */

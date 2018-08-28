@@ -1,6 +1,9 @@
+;
 /**
  * 扩展RegExp的factory方法
  * @param args name为必须，其他为占位符参数。 占位符使用@标识
+ * @version v1.0.1
+ * @author wangkai
  * @returns {*}
  */
 Object.assign(RegExp, {
@@ -41,5 +44,5 @@ Object.assign(RegExp, {
 
     return new RegExp(target);
   }
-})
+});
 

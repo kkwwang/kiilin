@@ -1,4 +1,8 @@
-
+/**
+ * datatables 封装
+ * @version v1.0.1
+ * @author wangkai
+ */
 ;(function ($) {
   /**
    * 自定义
