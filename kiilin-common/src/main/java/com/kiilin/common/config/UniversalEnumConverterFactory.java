@@ -15,14 +15,14 @@ import java.util.WeakHashMap;
  */
 public class UniversalEnumConverterFactory implements ConverterFactory<String, IDictEnum> {
 
-    private static final Map<Class, Converter> converterMap = new WeakHashMap<>();
+    private static final Map<Class, Converter> CONVERTER_MAP = new WeakHashMap<>();
 
     @Override
     public <T extends IDictEnum> Converter<String, T> getConverter(Class<T> targetType) {
-        Converter result = converterMap.get(targetType);
+        Converter result = CONVERTER_MAP.get(targetType);
         if (result == null) {
             result = new IntegerStrToEnum<>(targetType);
-            converterMap.put(targetType, result);
+            CONVERTER_MAP.put(targetType, result);
         }
         return result;
     }
