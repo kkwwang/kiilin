@@ -14,10 +14,7 @@ import sun.reflect.ConstructorAccessor;
 import sun.reflect.FieldAccessor;
 import sun.reflect.ReflectionFactory;
 
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,7 +72,7 @@ public class EnumUtils {
         return reflectionFactory.newConstructorAccessor(enumClass.getDeclaredConstructor(parameterTypes));
     }
 
-    private static Object makeEnum(Class<?> enumClass, String value, int ordinal, Class<?>[] additionalTypes, Object[] additionalValues) throws Exception {
+    private static Object makeEnum(Class<?> enumClass, String value, int ordinal, Class<?>[] additionalTypes, Object[] additionalValues) throws NoSuchMethodException, InvocationTargetException, InstantiationException {
         Object[] parms = new Object[additionalValues.length + 2];
         parms[0] = value;
         parms[1] = Integer.valueOf(ordinal);
@@ -110,32 +107,33 @@ public class EnumUtils {
         AccessibleObject.setAccessible(new Field[]{valuesField}, true);
 
         try {
-            // 2. Copy it
-            T[] previousValues = (T[]) valuesField.get(enumType);
-            List<T> values = new ArrayList<T>(Arrays.asList(previousValues));
+            if (null != valuesField) {
+                // 2. Copy it
+                T[] previousValues = (T[]) valuesField.get(enumType);
+                List<T> values = new ArrayList<T>(Arrays.asList(previousValues));
 
-            // 3. build new enum
-            // The target enum class
-            T newValue = (T) makeEnum(enumType,
-                    // THE NEW ENUM INSTANCE TO BE DYNAMICALLY ADDED
-                    enumName,
-                    values.size(),
-                    // could be used to pass values to the enum constuctor if needed
-                    new Class<?>[]{},
-                    // could be used to pass values to the enum constuctor if needed
-                    new Object[]{});
+                // 3. build new enum
+                // The target enum class
+                T newValue = (T) makeEnum(enumType,
+                        // THE NEW ENUM INSTANCE TO BE DYNAMICALLY ADDED
+                        enumName,
+                        values.size(),
+                        // could be used to pass values to the enum constuctor if needed
+                        new Class<?>[]{},
+                        // could be used to pass values to the enum constuctor if needed
+                        new Object[]{});
 
-            // 4. add new value
-            values.add(newValue);
+                // 4. add new value
+                values.add(newValue);
 
-            // 5. Set new values field
-            setFailsafeFieldValue(valuesField, null, values.toArray((T[]) Array.newInstance(enumType, 0)));
+                // 5. Set new values field
+                setFailsafeFieldValue(valuesField, null, values.toArray((T[]) Array.newInstance(enumType, 0)));
 
-            // 6. Clean enum cache
-            cleanEnumCache(enumType);
+                // 6. Clean enum cache
+                cleanEnumCache(enumType);
+            }
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e);
         }
     }
@@ -162,25 +160,24 @@ public class EnumUtils {
         AccessibleObject.setAccessible(new Field[]{valuesField}, true);
 
         try {
+            if (null != valuesField) {
+                // 2. Copy it
+                T[] previousValues = (T[]) valuesField.get(enumType);
+                List<T> values = new ArrayList<T>(Arrays.asList(previousValues));
 
-            // 2. Copy it
-            T[] previousValues = (T[]) valuesField.get(enumType);
-            List<T> values = new ArrayList<T>(Arrays.asList(previousValues));
+                // 3. build new enum
+                T newValue = (T) makeEnum(enumType, enumName, values.size(), additionalTypes, additionalValues);
 
-            // 3. build new enum
-            T newValue = (T) makeEnum(enumType, enumName, values.size(), additionalTypes, additionalValues);
+                // 4. add new value
+                values.add(newValue);
 
-            // 4. add new value
-            values.add(newValue);
+                // 5. Set new values field
+                setFailsafeFieldValue(valuesField, null, values.toArray((T[]) Array.newInstance(enumType, 0)));
 
-            // 5. Set new values field
-            setFailsafeFieldValue(valuesField, null, values.toArray((T[]) Array.newInstance(enumType, 0)));
-
-            // 6. Clean enum cache
-            cleanEnumCache(enumType);
-
+                // 6. Clean enum cache
+                cleanEnumCache(enumType);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e.getMessage(), e);
         }
     }

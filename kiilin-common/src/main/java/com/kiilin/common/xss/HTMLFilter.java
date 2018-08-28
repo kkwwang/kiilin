@@ -307,7 +307,9 @@ public final class HTMLFilter {
         // (remember to reset before subsequent calls to filter method)
         for (String key : vTagCounts.keySet()) {
             for (int ii = 0; ii < vTagCounts.get(key); ii++) {
-                s += "</" + key + ">";
+                s += "</";
+                s += key;
+                s += ">";
             }
         }
 
@@ -386,7 +388,11 @@ public final class HTMLFilter {
                         if (inArray(paramName, vProtocolAtts)) {
                             paramValue = processParamProtocol(paramValue);
                         }
-                        params += " " + paramName + "=\"" + paramValue + "\"";
+                        params += " ";
+                        params += paramName;
+                        params += "=\"";
+                        params += paramValue;
+                        params += "\"";
                     }
                 }
 
