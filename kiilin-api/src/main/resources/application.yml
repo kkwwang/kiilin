@@ -1,14 +1,18 @@
 sys:
-    code: app
+    name: kiilin
+    code: api
+
 # Tomcat
 server:
     tomcat:
         uri-encoding: UTF-8
         max-threads: 1000
         min-spare-threads: 30
+#        accesslog: false
     port: 8081
     servlet:
       context-path: /kiilin-api
+
 
 spring:
     # 环境 dev|test|prod
@@ -20,60 +24,99 @@ spring:
       default-domain: kiilin-api
     # 关闭默认模板引擎
     thymeleaf:
-      cache: false
       enabled: false
-    # 热部署
-    devtools:
-      restart:
-        enabled: true
+
+    jackson:
+      time-zone: GMT+8
+      date-format: yyyy-MM-dd HH:mm:ss
 
 
-# mybatis
-mybatis:
-  type-aliases-package: com.kiilin.**.dto.**
+
+#mybatis http://mp.baomidou.com/#/?id=%E7%AE%80%E4%BB%8B
+mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.kiilin.**.dto.**
+  typeEnumsPackage: com.kiilin.modules.pojo.enums.dict
 
-# mapper
-# doc:  https://mapperhelper.github.io/docs/
-#       https://gitee.com/free/Mapper/wikis/
-mapper:
-    mappers:
-        - com.kiilin.common.tkmapper.AbstractMapper
-    notEmpty: true
-    before: true
-    identity: MYSQL
-    # 配置后会自动处理关键字 使用 {0} 替代原来的列名
-    wrap-keyword: `{0}`
-    # 配置为 true 后，delete 和 deleteByExample 都必须设置查询条件才能删除，否则会抛出异常。
-    safe-delete: true
-    safe-update: true
-
-# pagehelper
-# doc: https://github.com/pagehelper/Mybatis-PageHelper
-pagehelper:
-    helperDialect: mysql
-    reasonable: true
-    supportMethodsArguments: true
-    params: count=countSql
-
-# 改写逻辑删除
-# 一下三个配置有其中一个未空就会调用到物理删除，请谨慎配置
-delete:
-  flag:
-    # 逻辑删除的属性类型
-    type: java.lang.Boolean
-    # 逻辑删除的属性名（对应实体）
-    name: delFlag
-    # 逻辑删除的属性值（为该值时为逻辑删除）
-    value: true
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 3
+    #字段策略 0:"忽略判断",1:"非 NULL 判断",2:"非空判断"
+    field-strategy: 2
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+    # Sequence序列接口实现类配置
+    #key-generator: com.baomidou.mybatisplus.incrementer.OracleKeyGenerator
+    #逻辑删除配置
+    logic-delete-value: true
+    logic-not-delete-value: false
+    #自定义SQL注入器
+    sql-injector: com.baomidou.mybatisplus.mapper.LogicSqlInjector
+    #自定义填充策略接口实现
+    meta-object-handler: com.kiilin.common.config.MetaObjectHandlerConfig
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    call-setters-on-nulls: true
+    #配置JdbcTypeForNull, oracle数据库必须配置
+    jdbc-type-for-null: 'null'
 
 
-#logging
+# logging
 logging:
   config: classpath:logback-spring.xml
 
-session:
-    redis:
-        open: true  # 是否开启redis缓存  true开启   false关闭
-    shiro:
-        redis: true # true表示shiro session存到redis里，需要开启redis，才会生效【分布式场景】
+
+
+# xss 忽略url 以, 分割 注意后面空格
+xss:
+    ignoreUrls:
+        /test/ignoreXss1, /test/ignoreXss2
+shiro:
+  #  启用
+  enabled: true
+  # 启用web
+  web:
+    enabled: true
+  # 登录地址
+  loginUrl: /login.html
+  # 无权限访问地址
+  unauthorizedUrl: /403
+  # 登录成功跳转地址 ajax 登录时无效
+  successUrl: /
+  # 启用注解
+  annotations:
+    enabled: true
+
+
+  other:
+    # 匿名访问
+    anon:
+        - /webjars/**
+        - /error/**
+        - /statics/**
+        - /static/**
+        - /login.html
+        - /login
+#        - /demos/**
+        - /test/**
+        - /swagger/**
+        - /swagger-ui.html
+        - /swagger-resources/**
+    # 必须登录访问
+    authc:
+        - /**
+
+
+
+
+
+
+
+
+
