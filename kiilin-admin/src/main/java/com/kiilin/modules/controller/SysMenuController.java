@@ -43,9 +43,20 @@ public class SysMenuController extends AbstractController {
     @RequestMapping("list")
     @RequiresPermissions("sysMenu:list")
     public List<SysMenu> child(SysMenu q) {
-
         // 调用查询
         List<SysMenu> list = menuService.selectList(new EntityWrapper<>(q));
+
+        // 各渠道顶级菜单
+        SysCodeEnum[] values = SysCodeEnum.values();
+        for (SysCodeEnum codeEnum : values) {
+            SysMenu sysCodeRoot = new SysMenu();
+            sysCodeRoot.setId(codeEnum.getValue());
+            sysCodeRoot.setMenuName(codeEnum.getDesc() + "根目录");
+            sysCodeRoot.setParentId("0");
+            sysCodeRoot.setParentIds("0,");
+            list.add(sysCodeRoot);
+        }
+
         return list;
     }
 
@@ -127,12 +138,12 @@ public class SysMenuController extends AbstractController {
      * @return
      */
     @RequestMapping("/selectTree")
-    public ServiceResult selectTree(Boolean hasRoot, SysCodeEnum sysCode) {
+    public ServiceResult selectTree(boolean hasRoot, SysCodeEnum sysCode) {
 
         List<SysMenuEntity> list = menuService.selectTree(sysCode);
         if (hasRoot) {
             SysMenuEntity root = new SysMenuEntity();
-            root.setId("0");
+            root.setId(sysCode.getValue());
             root.setMenuName("根目录");
             root.setChildren(list);
             return ServiceResult.success(Arrays.asList(root));
@@ -147,13 +158,13 @@ public class SysMenuController extends AbstractController {
      * @return
      */
     @RequestMapping("/selectTreeNoneAction")
-    public ServiceResult selectTreeNoneAction(Boolean hasRoot, SysCodeEnum sysCode) {
+    public ServiceResult selectTreeNoneAction(boolean hasRoot, SysCodeEnum sysCode) {
 
         List<SysMenuEntity> list = menuService.selectTreeNoneAction(sysCode);
         if (hasRoot) {
             SysMenuEntity root = new SysMenuEntity();
             root.setMenuName("根目录");
-            root.setId("0");
+            root.setId(sysCode.getValue());
             root.setChildren(list);
             return ServiceResult.success(Arrays.asList(root));
         }

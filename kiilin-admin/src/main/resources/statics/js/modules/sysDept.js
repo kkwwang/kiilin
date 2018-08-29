@@ -53,7 +53,7 @@ var vm = new Vue({
     deptTree: [],
     deptTypeList: [],
     filterText: "",
-
+    expandAll: true,
     deptTreeProps: {
       children: 'children',
       label: 'deptName'
@@ -92,10 +92,15 @@ var vm = new Vue({
       table.setIdField("id");
       table.setCodeField("id");
       table.setParentCodeField("parentId");
-      table.setExpandAll(true);
+      table.setExpandAll(vm.expandAll);
       table.init();
 
       vm.table = table;
+    },
+    expandAllFn(){
+      vm.expandAll = !vm.expandAll;
+      vm.table.setExpandAll(vm.expandAll);
+      vm.table.init();
     },
     /**
      * 查询部门类型

@@ -107,7 +107,7 @@ public class SysDeptController extends AbstractController {
      * @return
      */
     @RequestMapping("/selectTree")
-    public ServiceResult selectTree(Boolean hasRoot) {
+    public ServiceResult selectTree(boolean hasRoot) {
 
         List<SysDeptEntity> list = sysDeptService.selectTree();
         if (hasRoot) {

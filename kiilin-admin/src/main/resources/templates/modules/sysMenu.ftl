@@ -40,6 +40,8 @@
       <#if shiro.hasPermission("sysMenu:save")>
         <el-button type="primary" @click="add"><i class="el-icon-circle-plus"></i>添加</el-button>
       </#if>
+        <el-button type="info" @click="expandAllFn" v-if="!expandAll"><i class="el-icon-circle-plus-outline"></i>展开全部</el-button>
+        <el-button type="info" @click="expandAllFn" v-if="expandAll"><i class="el-icon-remove-outline"></i>收起全部</el-button>
       </el-col>
     </el-row>
   </el-header>

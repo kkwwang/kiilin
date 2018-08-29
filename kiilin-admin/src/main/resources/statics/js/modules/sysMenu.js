@@ -19,6 +19,10 @@ var columns = [
     width: '100px',
     formatter: function (item, index) {
 
+      if(!item.menuType){
+        return '';
+      }
+
       if(types[item.menuType]){
         return types[item.menuType];
       } else {
@@ -33,6 +37,9 @@ var columns = [
   {title: '排序', field: 'sort', sortable: false, width: '100px'},
   {
     title: '是否显示', field: 'sort', sortable: false, width: '100px', formatter(item, index) {
+      if(!item.menuType){
+        return '';
+      }
       return item.showFlag ? "显示" : "不显示";
     }
   },
@@ -45,6 +52,9 @@ var columns = [
     sortable: false,
     width: '180px',
     formatter: function (item, index) {
+      if(!item.menuType){
+        return '';
+      }
       return $.template("html", {
         template: $("#action_btn"),
         data: {id: item.id}
@@ -56,7 +66,6 @@ var columns = [
 var Menu = {
   id: "menuTable",
   table: null,
-  layerIndex: -1
 };
 
 var vm = new Vue({
@@ -68,6 +77,7 @@ var vm = new Vue({
     submiting: false,
     showParentDialog: false,
     filterText: "",
+    expandAll: true,
     menuTypeList: [],
     sysCodeList: [],
     menuTreeProps: {
@@ -118,10 +128,16 @@ var vm = new Vue({
       table.setIdField("id");
       table.setCodeField("id");
       table.setParentCodeField("parentId");
-      table.setExpandAll(true);
+      table.setRootCodeValue("0");
+      table.setExpandAll(vm.expandAll);
       table.init();
 
       Menu.table = table;
+    },
+    expandAllFn(){
+      vm.expandAll = !vm.expandAll;
+      Menu.table.setExpandAll(vm.expandAll);
+      Menu.table.init();
     },
     getMenuTree: function (sysCode) {
       $.ajax({
