@@ -204,7 +204,10 @@ var vm = new Vue({
      * 选择部门的回调
      * @param data
      */
-    selectDept: function (data) {
+    selectDept: function (data, node){
+      if(node.disabled){
+        return;
+      }
       this.$refs.deptTreeRef.setCheckedKeys([data.id]);
     },
     submitDept(){

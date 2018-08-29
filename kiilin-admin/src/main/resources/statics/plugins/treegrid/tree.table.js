@@ -128,7 +128,26 @@
             } else {
                 this.btInstance.bootstrapTreeTable('refresh');
             }
+        },
+      toggleExpandAll(expandAll){
+        var $table = $("#" + this.bstableId);
+        var $parent = $table.parent(".fixed-table-container");
+        var $parent_prev = $parent.prev(".fixed-table-toolbar");
+        var $main = $parent.parent();
+
+        if($parent_prev){
+          $parent_prev.remove();
         }
+        if($parent){
+          $parent.remove();
+        }
+        if($main){
+          $main.append($table);
+        }
+
+        this.setExpandAll(expandAll);
+        this.init();
+      }
     };
 
     window.TreeTable = TreeTable;

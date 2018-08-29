@@ -15,15 +15,23 @@ public class ServiceException extends RuntimeException {
      */
     private ServiceCodeEnum serviceCodeEnum;
 
+    private String code;
+
     public ServiceException(ServiceCodeEnum serviceCodeEnum) {
         super(serviceCodeEnum.getMessage());
         this.serviceCodeEnum = serviceCodeEnum;
+    }
+
+    public ServiceException(String code, String msg) {
+        super(msg);
+        this.code = code;
     }
 
     public ServiceException(String msg) {
         super(msg);
         this.serviceCodeEnum = ServiceCodeEnum.SYS_ERROR.setMessageAndReturn(msg);
     }
+
     public ServiceException(String msg, Throwable e) {
         super(msg, e);
     }
@@ -35,5 +43,14 @@ public class ServiceException extends RuntimeException {
 
     public ServiceCodeEnum getServiceCodeEnum() {
         return serviceCodeEnum;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public ServiceException setCode(String code) {
+        this.code = code;
+        return this;
     }
 }

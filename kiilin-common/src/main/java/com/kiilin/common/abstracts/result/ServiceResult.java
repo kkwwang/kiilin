@@ -113,7 +113,7 @@ public class ServiceResult implements Serializable {
      */
     public static ServiceResult error(ServiceException se) {
         if (null == se.getServiceCodeEnum()) {
-            return error(se.getMessage());
+            return error(se.getCode(), se.getMessage());
         }
         return error(se.getServiceCodeEnum());
     }

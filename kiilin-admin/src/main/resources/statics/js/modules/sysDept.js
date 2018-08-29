@@ -99,8 +99,7 @@ var vm = new Vue({
     },
     expandAllFn(){
       vm.expandAll = !vm.expandAll;
-      vm.table.setExpandAll(vm.expandAll);
-      vm.table.init();
+      vm.table.toggleExpandAll(vm.expandAll);
     },
     /**
      * 查询部门类型
@@ -194,7 +193,10 @@ var vm = new Vue({
      * 选择父部门的回调
      * @param data
      */
-    selectParentDept: function (data) {
+    selectParentDept: function (data, node){
+      if(node.disabled){
+        return;
+      }
       this.$refs.deptTreeRef.setCheckedKeys([data.id]);
     },
     getDeptTree: function () {

@@ -136,8 +136,7 @@ var vm = new Vue({
     },
     expandAllFn(){
       vm.expandAll = !vm.expandAll;
-      Menu.table.setExpandAll(vm.expandAll);
-      Menu.table.init();
+      vm.table.toggleExpandAll(vm.expandAll);
     },
     getMenuTree: function (sysCode) {
       $.ajax({
@@ -290,7 +289,10 @@ var vm = new Vue({
      * 选择父菜单的回调
      * @param data
      */
-    selectParentMenu: function (data) {
+    selectParentMenu: function (data, node){
+      if(node.disabled){
+        return;
+      }
       this.$refs.menuTreeRef.setCheckedKeys([data.id]);
 
     },

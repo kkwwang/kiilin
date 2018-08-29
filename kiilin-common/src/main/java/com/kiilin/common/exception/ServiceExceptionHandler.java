@@ -34,7 +34,7 @@ public class ServiceExceptionHandler {
     /**
      * 创建 Pattern 对象
      */
-    Pattern r = Pattern.compile("Duplicate entry '(.*)' for key '(.*)'");
+    final static Pattern PATTERN = Pattern.compile("Duplicate entry '(.*)' for key '(.*)'");
 
     /**
      * 处理自定义异常
@@ -58,7 +58,7 @@ public class ServiceExceptionHandler {
     public ServiceResult handleDuplicateKeyException(DuplicateKeyException e) {
         String message = e.getCause().getMessage();
         // 现在创建 matcher 对象
-        Matcher m = r.matcher(message);
+        Matcher m = PATTERN.matcher(message);
         if (m.find()) {
             try {
                 String value = m.group(1);
