@@ -4,6 +4,7 @@ import com.kiilin.modules.pojo.dto.SysMenu;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Accessors(chain = true)
 @ApiModel("菜单表 扩展")
 public class SysMenuEntity extends SysMenu implements Serializable {

@@ -147,8 +147,8 @@
               >
               {{loginUser.username}}
             </template>
-            <el-menu-item index="logout" @click="logout">安全退出</el-menu-item>
             <el-menu-item index="modify_password" @click="modify_password">修改密码</el-menu-item>
+            <el-menu-item index="logout" @click="logout">安全退出</el-menu-item>
           </el-submenu>
           <#-- 其余按钮 -->
           <el-submenu
@@ -199,7 +199,7 @@
       <el-footer>
         <div class="main-footer">
           Copyright &copy; 2018
-          <a href="http://www.kiilin.com" target="_blank">kiilin.com</a>
+          <a href="http://www.sinoroad.com" target="_blank">sinoroad.com</a>
           All Rights Reserved&nbsp;&nbsp;&nbsp;
           <a href="http://www.miibeian.gov.cn" target="_blank">苏ICP备17015164号-1</a>
         </div>

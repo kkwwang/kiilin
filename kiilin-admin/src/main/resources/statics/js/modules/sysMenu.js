@@ -63,10 +63,6 @@ var columns = [
   },
 ];
 
-var Menu = {
-  id: "menuTable",
-  table: null,
-};
 
 var vm = new Vue({
   el: '#app',
@@ -78,6 +74,7 @@ var vm = new Vue({
     showParentDialog: false,
     filterText: "",
     expandAll: true,
+    table: null,
     menuTypeList: [],
     sysCodeList: [],
     menuTreeProps: {
@@ -123,7 +120,7 @@ var vm = new Vue({
   methods: {
     // 查询表格
     list: function () {
-      var table = new TreeTable(Menu.id, baseUrl + "/sysMenu/list", columns);
+      var table = new TreeTable("menuTable", baseUrl + "/sysMenu/list", columns);
       table.setExpandColumn(0);
       table.setIdField("id");
       table.setCodeField("id");
@@ -132,7 +129,7 @@ var vm = new Vue({
       table.setExpandAll(vm.expandAll);
       table.init();
 
-      Menu.table = table;
+      vm.table = table;
     },
     expandAllFn(){
       vm.expandAll = !vm.expandAll;
@@ -283,6 +280,10 @@ var vm = new Vue({
       vm.getMenuTree(sysCode);
     },
     openParentMenuDialog: function () {
+      if(!vm.formData.sysCode){
+        alert("请先选中所属系统");
+        return;
+      }
       vm.showParentDialog = true;
     },
     /**
@@ -338,7 +339,7 @@ var vm = new Vue({
           vm.submiting = false;
           if (_result.success) {
             alert("保存成功", function () {
-              Menu.table.refresh();
+              vm.table.refresh();
               vm.edit_flag = false;
             })
           } else {
@@ -372,7 +373,7 @@ var vm = new Vue({
           success: function (_result) {
             if (_result.success) {
               alert("删除成功", function () {
-                Menu.table.refresh();
+                vm.table.refresh();
               })
             } else {
               alert(_result.error);

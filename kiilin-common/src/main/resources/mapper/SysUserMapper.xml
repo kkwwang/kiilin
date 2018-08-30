@@ -29,6 +29,96 @@
         <result column="deptId" property="deptId"/>
     </resultMap>
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="loginMap" type="com.kiilin.modules.pojo.entity.SysUserEntity">
+
+        <id column="id" property="id"/>
+        <result column="createBy" property="createBy"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateBy" property="updateBy"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="delFlag" property="delFlag"/>
+        <result column="remark" property="remark"/>
+        <result column="username" property="username"/>
+        <result column="loginName" property="loginName"/>
+        <result column="salt" property="salt"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="sex" property="sex"/>
+        <result column="photo" property="photo"/>
+        <result column="sign" property="sign"/>
+        <result column="wxOpenid" property="wxOpenid"/>
+        <result column="userType" property="userType"/>
+        <result column="lastLoginIp" property="lastLoginIp"/>
+        <result column="lastLoginTime" property="lastLoginTime"/>
+        <result column="status" property="status"/>
+        <result column="deptId" property="deptId"/>
+        <collection property="roles" ofType="com.kiilin.modules.pojo.entity.SysRoleEntity">
+
+            <id column="r_id" property="id"/>
+            <result column="r_createBy" property="createBy"/>
+            <result column="r_createTime" property="createTime"/>
+            <result column="r_updateBy" property="updateBy"/>
+            <result column="r_updateTime" property="updateTime"/>
+            <result column="r_delFlag" property="delFlag"/>
+            <result column="r_remark" property="remark"/>
+            <result column="r_roleName" property="roleName"/>
+            <result column="r_roleCode" property="roleCode"/>
+            <result column="r_roleType" property="roleType"/>
+            <result column="r_dataScope" property="dataScope"/>
+            <result column="r_useable" property="useable"/>
+        </collection>
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="login_user_Column_List">
+        <!-- 公共字段 -->
+        u.`id` AS `id`,
+        u.`create_by` AS `createBy`,
+        u.`create_time` AS `createTime`,
+        u.`update_by` AS `updateBy`,
+        u.`update_time` AS `updateTime`,
+        u.`del_flag` AS `delFlag`,
+        u.`remark` AS `remark`,
+        <!-- 普通字段 -->
+        u.`username` AS `username`,
+        u.`login_name` AS `loginName`,
+        u.`salt` AS `salt`,
+        u.`password` AS `password`,
+        u.`email` AS `email`,
+        u.`mobile` AS `mobile`,
+        u.`sex` AS `sex`,
+        u.`photo` AS `photo`,
+        u.`sign` AS `sign`,
+        u.`wx_openid` AS `wxOpenid`,
+        u.`user_type` AS `userType`,
+        u.`last_login_ip` AS `lastLoginIp`,
+        u.`last_login_time` AS `lastLoginTime`,
+        u.`status` AS `status`,
+        u.`dept_id` AS `deptId`
+    </sql>
+
+    <!-- 通用查询结果列 -->
+    <sql id="login_role_Column_List">
+        <!-- 公共字段 -->
+        r.`id` AS `r_id`,
+        r.`create_by` AS `r_createBy`,
+        r.`create_time` AS `r_createTime`,
+        r.`update_by` AS `r_updateBy`,
+        r.`update_time` AS `r_updateTime`,
+        r.`del_flag` AS `r_delFlag`,
+        r.`remark` AS `r_remark`,
+        <!-- 普通字段 -->
+        r.`role_name` AS `r_roleName`,
+        r.`role_code` AS `r_roleCode`,
+        r.`role_type` AS `r_roleType`,
+        r.`data_scope` AS `r_dataScope`,
+        r.`useable` AS `r_useable`
+    </sql>
+
+
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
@@ -77,6 +167,25 @@
             u.id = #{userId}
         AND u.del_flag = FALSE
         AND m.permission IS NOT NULL
+    </select>
+
+
+    <select id="login" resultMap="loginMap">
+        SELECT
+        <include refid="login_user_Column_List"/>,
+        <include refid="login_role_Column_List"/>
+        FROM
+        sys_user u
+        JOIN sys_user_role ur ON u.id = ur.user_id
+        AND ur.del_flag = FALSE
+        JOIN sys_role r ON ur.role_id = r.id
+        AND r.del_flag = FALSE
+        WHERE
+        u.del_flag = FALSE
+        AND (
+        u.login_name = #{loginNameOrMobile}
+        OR u.mobile = #{loginNameOrMobile}
+        )
     </select>
 
 

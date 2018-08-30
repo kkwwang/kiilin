@@ -1,10 +1,10 @@
 package com.kiilin.common.shiro;
 
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.kiilin.common.redis.RedisKeys;
 import com.kiilin.common.redis.RedisUtils;
 import com.kiilin.modules.pojo.dto.SysUser;
+import com.kiilin.modules.pojo.entity.SysUserEntity;
 import com.kiilin.modules.pojo.enums.dict.UserStatusEnum;
 import com.kiilin.modules.service.SysUserService;
 import org.apache.commons.lang3.StringUtils;
@@ -54,8 +54,9 @@ public class UserRealm extends AuthorizingRealm {
 
 
         // 查询用户信息
-        SysUser user = userService.selectOne(new EntityWrapper<SysUser>().where("login_name={0}", token.getUsername()).or("mobile={0}", token.getUsername()));
+//        SysUser user = userService.selectOne(new EntityWrapper<SysUser>().where("login_name={0}", token.getUsername()).or("mobile={0}", token.getUsername()));
 
+        SysUserEntity user = userService.login(token.getUsername());
         // 账号不存在
         if (user == null) {
             throw new UnknownAccountException("账号不存在");
@@ -77,7 +78,7 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
-        SysUser user = ShiroUtils.getUser();
+        SysUserEntity user = ShiroUtils.getUser();
 
         // todo 角色暂未授权 目前暂无需要
         if (null != user) {

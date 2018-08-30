@@ -9,6 +9,7 @@ import com.kiilin.common.shiro.ShiroUtils;
 import com.kiilin.common.validator.ValidatorUtils;
 import com.kiilin.modules.pojo.dto.SysMenu;
 import com.kiilin.modules.pojo.entity.SysMenuEntity;
+import com.kiilin.modules.pojo.enums.ServiceCodeEnum;
 import com.kiilin.modules.pojo.enums.dict.SysCodeEnum;
 import com.kiilin.modules.service.SysMenuService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,7 @@ public class SysMenuController extends AbstractController {
     @RequestMapping("list")
     @RequiresPermissions("sysMenu:list")
     public List<SysMenu> child(SysMenu q) {
+
         // 调用查询
         List<SysMenu> list = menuService.selectList(new EntityWrapper<>(q));
 
@@ -128,6 +130,9 @@ public class SysMenuController extends AbstractController {
      */
     @RequestMapping("/getMenuByUser")
     public ServiceResult getMenuByUser(String[] types, SysCodeEnum sysCode) {
+        if (null == sysCode) {
+            return ServiceResult.error(ServiceCodeEnum.SYS_CODE_IS_NULL);
+        }
         return ServiceResult.success(menuService.getMenuByUser(getUserId(), types, sysCode));
     }
 
@@ -139,6 +144,10 @@ public class SysMenuController extends AbstractController {
      */
     @RequestMapping("/selectTree")
     public ServiceResult selectTree(boolean hasRoot, SysCodeEnum sysCode) {
+
+        if (null == sysCode) {
+            return ServiceResult.error(ServiceCodeEnum.SYS_CODE_IS_NULL);
+        }
 
         List<SysMenuEntity> list = menuService.selectTree(sysCode);
         if (hasRoot) {
@@ -159,6 +168,9 @@ public class SysMenuController extends AbstractController {
      */
     @RequestMapping("/selectTreeNoneAction")
     public ServiceResult selectTreeNoneAction(boolean hasRoot, SysCodeEnum sysCode) {
+        if (null == sysCode) {
+            return ServiceResult.error(ServiceCodeEnum.SYS_CODE_IS_NULL);
+        }
 
         List<SysMenuEntity> list = menuService.selectTreeNoneAction(sysCode);
         if (hasRoot) {

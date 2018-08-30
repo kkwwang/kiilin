@@ -8,6 +8,7 @@ import com.kiilin.modules.pojo.dto.SysDept;
 import com.kiilin.modules.pojo.dto.SysUser;
 import com.kiilin.modules.pojo.dto.SysUserDept;
 import com.kiilin.modules.pojo.dto.SysUserRole;
+import com.kiilin.modules.pojo.entity.SysUserEntity;
 import com.kiilin.modules.pojo.enums.ServiceCodeEnum;
 import com.kiilin.modules.pojo.form.ModifyPasswordForm;
 import com.kiilin.modules.service.SysUserDeptService;
@@ -117,5 +118,11 @@ public class SysUserServiceImpl extends AbstractServiceImpl<SysUserDao, SysUser>
     @Override
     public List<SysDept> getUserDeptList(String userId) {
         return userDeptService.getUserDeptList(userId);
+    }
+
+
+    @Override
+    public SysUserEntity login(String loginNameOrMobile) {
+        return baseMapper.login(loginNameOrMobile);
     }
 }

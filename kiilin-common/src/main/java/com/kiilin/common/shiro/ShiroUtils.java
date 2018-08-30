@@ -6,6 +6,7 @@ import com.kiilin.common.redis.RedisKeys;
 import com.kiilin.common.redis.RedisUtils;
 import com.kiilin.common.util.LogUtils;
 import com.kiilin.modules.pojo.dto.SysUser;
+import com.kiilin.modules.pojo.entity.SysUserEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -72,14 +73,14 @@ public class ShiroUtils {
         return SecurityUtils.getSubject();
     }
 
-    public static SysUser getUser() {
+    public static SysUserEntity getUser() {
         Object principal = SecurityUtils.getSubject().getPrincipal();
         if(null == principal){
             return null;
         }
         String string = JSON.toJSONString(principal);
-        SysUser user = JSON.parseObject(string, SysUser.class);
-        // SysUser user = (SysUser) principal;
+        SysUserEntity user = JSON.parseObject(string, SysUserEntity.class);
+        // SysUser user = (SysUserEntity) principal;
         return user;
     }
 

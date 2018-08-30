@@ -5,6 +5,7 @@ import com.kiilin.modules.pojo.dto.SysRole;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 @Accessors(chain = true)
 @ApiModel("角色 扩展")
 public class SysRoleEntity extends SysRole {

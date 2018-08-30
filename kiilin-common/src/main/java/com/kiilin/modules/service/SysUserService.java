@@ -4,6 +4,7 @@ import com.kiilin.common.abstracts.service.AbstractService;
 import com.kiilin.modules.dao.SysUserDao;
 import com.kiilin.modules.pojo.dto.SysDept;
 import com.kiilin.modules.pojo.dto.SysUser;
+import com.kiilin.modules.pojo.entity.SysUserEntity;
 import com.kiilin.modules.pojo.form.ModifyPasswordForm;
 
 import java.util.List;
@@ -56,4 +57,12 @@ public interface SysUserService extends AbstractService<SysUserDao, SysUser> {
      * @return 部门
      */
     List<SysDept> getUserDeptList(String userId);
+
+    /**
+     * 查询登录用户
+     *
+     * @param loginNameOrMobile
+     * @return
+     */
+    SysUserEntity login(String loginNameOrMobile);
 }

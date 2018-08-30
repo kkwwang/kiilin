@@ -268,8 +268,9 @@ var vm = new Vue({
           vm.submiting = false;
           if (_result.success) {
             alert("保存成功", function () {
-              vm.table.ajaxReload(vm.queryData);
-              vm.edit_flag = false;
+              // vm.table.ajaxReload(vm.queryData);
+              // vm.edit_flag = false;
+              top.location.reload();
             })
           } else {
             alert(_result.error);

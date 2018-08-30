@@ -24,19 +24,20 @@
     <sql id="Base_Column_List">
         <!-- 公共字段 -->
         `id` AS `id`,
-        `create_by` AS `createBy`,
-        `create_time` AS `createTime`,
-        `update_by` AS `updateBy`,
-        `update_time` AS `updateTime`,
-        `del_flag` AS `delFlag`,
+        `create_by` AS `create_by`,
+        `create_time` AS `create_time`,
+        `update_by` AS `update_by`,
+        `update_time` AS `update_time`,
+        `del_flag` AS `del_flag`,
         `remark` AS `remark`,
         <!-- 普通字段 -->
-        `role_name` AS `roleName`,
-        `role_code` AS `roleCode`,
-        `role_type` AS `roleType`,
-        `data_scope` AS `dataScope`,
+        `role_name` AS `role_name`,
+        `role_code` AS `role_code`,
+        `role_type` AS `role_type`,
+        `data_scope` AS `data_scope`,
         `useable` AS `useable`
     </sql>
+
 
 
 </mapper>

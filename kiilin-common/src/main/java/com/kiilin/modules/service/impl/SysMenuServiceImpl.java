@@ -45,14 +45,14 @@ public class SysMenuServiceImpl extends AbstractServiceImpl<SysMenuDao, SysMenu>
     @Override
     @Cacheable(value = RedisKeys.CACHE_2_HOU)
     public List<SysMenuEntity> selectTree(SysCodeEnum sysCode) {
-        List<SysMenuEntity> list = baseMapper.selectTree(String.valueOf(0), sysCode);
+        List<SysMenuEntity> list = baseMapper.selectTree(sysCode.getValue(), sysCode);
         return list;
     }
 
     @Override
     @Cacheable(value = RedisKeys.CACHE_2_HOU)
     public List<SysMenuEntity> selectTreeNoneAction(SysCodeEnum sysCode) {
-        List<SysMenuEntity> list = baseMapper.selectTreeNoneAction(String.valueOf(0), sysCode);
+        List<SysMenuEntity> list = baseMapper.selectTreeNoneAction(sysCode.getValue(), sysCode);
         return list;
     }
 
