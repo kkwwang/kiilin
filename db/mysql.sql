@@ -188,6 +188,34 @@ CREATE TABLE `sys_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统日志表（记录新增、修改、删除操作的日志）';
 
 -- ----------------------------
+-- Table structure for sys_role
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role` (
+  `id` varchar(32) NOT NULL COMMENT 'id-uuid',
+  `role_name` varchar(64) DEFAULT NULL COMMENT '角色名',
+  `role_code` varchar(32) DEFAULT NULL COMMENT '角色 code',
+  `role_type` varchar(32) DEFAULT NULL COMMENT '角色类型',
+  `data_scope` int(2) DEFAULT NULL COMMENT '数据范围',
+  `useable` bit(1) DEFAULT b'1' COMMENT '是否可用',
+  `create_by` varchar(32) DEFAULT NULL COMMENT '创建者id',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(32) DEFAULT NULL COMMENT '修改者id',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `del_flag` bit(1) DEFAULT b'0' COMMENT '删除标识：0-未删除，1-删除',
+  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `role_code_key` (`role_code`) USING BTREE,
+  UNIQUE KEY `role_name_key` (`role_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
+
+-- ----------------------------
+-- Records of sys_role
+-- ----------------------------
+INSERT INTO `sys_role` VALUES ('9e1d30d1914911e88d081831bf4e61cf', '超级管理员', 'super_admin', '系统管理员', '1', '', '', '2018-07-27 11:03:50', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', '\0', 'hahah');
+INSERT INTO `sys_role` VALUES ('a3a9e079592047648d3f4f80c0461302', '测试角色', 'test', '测试', '1', '', '671973208fae11e88d081831bf4e61cf', '2018-08-13 17:41:26', null, null, '', '');
+
+-- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
@@ -217,7 +245,7 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('01c62d29dbff4dda90a8931c883ec04d', 'pc_top', 'pc_top,', '顶部菜单', '1', 'menu', 'http://www.baidu.com', 'main', '', '', '', null, 'pc_top', '671973208fae11e88d081831bf4e61cf', '2018-08-27 10:59:23', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:36', '\0', '');
+INSERT INTO `sys_menu` VALUES ('01c62d29dbff4dda90a8931c883ec04d', 'pc_top', 'pc_top,', '项目主页', '1', 'menu', 'https://www.kiilin.com', 'main', '', '', '', null, 'pc_top', '671973208fae11e88d081831bf4e61cf', '2018-08-27 10:59:23', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:29:42', '\0', '');
 INSERT INTO `sys_menu` VALUES ('04a59c6ba44611e8913c1831bf4e61cf', 'd2141675914911e88d081831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,', '部门管理', '2', 'menu', 'modules/sysDept.html', 'main', null, null, '', '1', 'pc', null, '2018-08-20 14:55:24', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('04bfbff5a44611e8913c1831bf4e61cf', '04a59c6ba44611e8913c1831bf4e61cf', '04a59c6ba44611e8913c1831bf4e61cf', '查看', '3', 'action', null, null, null, 'sysDept:list,sysDept:info', '', null, 'pc', null, '2018-08-20 14:55:24', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('04c58025a44611e8913c1831bf4e61cf', '04a59c6ba44611e8913c1831bf4e61cf', '04a59c6ba44611e8913c1831bf4e61cf', '修改或新增', '3', 'action', null, null, null, 'sysDept:save', '', null, 'pc', null, '2018-08-20 14:55:24', null, null, '\0', null);
@@ -226,6 +254,7 @@ INSERT INTO `sys_menu` VALUES ('290a1d639fa911e8bc2b305a3a74ee41', '435243de9fa3
 INSERT INTO `sys_menu` VALUES ('2950fa539fa911e8bc2b305a3a74ee41', '290a1d639fa911e8bc2b305a3a74ee41', 'pc,290a1d639fa911e8bc2b305a3a74ee41,', '查看', '3', 'action', null, null, null, 'sysDict:list,sysDict:info', '', null, 'pc', null, '2018-08-14 18:01:57', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('2957820d9fa911e8bc2b305a3a74ee41', '290a1d639fa911e8bc2b305a3a74ee41', 'pc,290a1d639fa911e8bc2b305a3a74ee41,', '修改或新增', '3', 'action', null, null, null, 'sysDict:save', '', null, 'pc', null, '2018-08-14 18:01:57', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('295e9cba9fa911e8bc2b305a3a74ee41', '290a1d639fa911e8bc2b305a3a74ee41', 'pc,290a1d639fa911e8bc2b305a3a74ee41,', '删除', '3', 'action', null, null, null, 'sysDict:del', '', null, 'pc', null, '2018-08-14 18:01:57', null, null, '\0', null);
+INSERT INTO `sys_menu` VALUES ('2b6b6207a8504061823f63120d8ac8d6', 'fbdec5db87d24bc0911738fc9d07176d', 'pc_top,fbdec5db87d24bc0911738fc9d07176d,', '百度一哈', '2', 'menu', 'https://www.baidu.com', 'main', '', '', '', null, 'pc_top', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:34', null, null, '\0', '');
 INSERT INTO `sys_menu` VALUES ('31cb94a894a311e893b21831bf4e61cf', 'd2141675914911e88d081831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,', '定时任务', '2', 'menu', 'job/schedule.html', '', '', 'test:test', '', null, 'pc', '', '2018-07-31 17:33:55', '6b1a14e23daa4728b5d0385b17844796', '2018-08-15 18:14:11', '\0', '');
 INSERT INTO `sys_menu` VALUES ('435243de9fa311e8bc2b305a3a74ee41', 'd2141675914911e88d081831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,', '数据字典', '2', 'menu', 'modules/sysDictType.html', 'main', '', '', '', '1', 'pc', '', '2018-08-14 17:19:43', '671973208fae11e88d081831bf4e61cf', '2018-08-14 17:20:30', '\0', '');
 INSERT INTO `sys_menu` VALUES ('439b3c3b9fa311e8bc2b305a3a74ee41', '435243de9fa311e8bc2b305a3a74ee41', 'pc,435243de9fa311e8bc2b305a3a74ee41,', '查看', '3', 'action', '', '', '', 'sysDictType:list,sysDictType:info', '', null, 'pc', '', '2018-08-14 17:19:44', '671973208fae11e88d081831bf4e61cf', '2018-08-14 17:23:16', '\0', '');
@@ -240,16 +269,11 @@ INSERT INTO `sys_menu` VALUES ('58194d3694a311e893b21831bf4e61cf', '31cb94a894a3
 INSERT INTO `sys_menu` VALUES ('5ae1497e5f12475e8179f561e1f29148', '290a1d639fa911e8bc2b305a3a74ee41', 'pc,0d2141675914911e88d081831bf4e61cf,', '编辑系统数据', '3', 'action', '', 'main', '', 'sysDict:sysData:edit', '', '4', 'pc', '6b1a14e23daa4728b5d0385b17844796', '2018-08-15 16:28:32', null, null, '\0', '');
 INSERT INTO `sys_menu` VALUES ('5b41cd1194a311e893b21831bf4e61cf', '31cb94a894a311e893b21831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,31cb94a894a311e893b21831bf4e61cf,', '立即执行', '3', 'action', null, null, null, 'sys:schedule:run', '', null, 'pc', null, '2018-07-31 17:33:37', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('5ea78c8394a311e893b21831bf4e61cf', '31cb94a894a311e893b21831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,31cb94a894a311e893b21831bf4e61cf,', '日志列表', '3', 'action', null, null, null, 'sys:schedule:log', '', null, 'pc', null, '2018-07-31 17:33:37', null, null, '\0', null);
-INSERT INTO `sys_menu` VALUES ('74cf9af8bff5489d8468e8414b12f6e4', 'pc', 'pc,', '项目管理', '1', 'menu_dir', '', 'main', 'el-icon-location-outline', '', '', '1', 'pc', '671973208fae11e88d081831bf4e61cf', '2018-08-21 10:46:31', null, null, '\0', '');
 INSERT INTO `sys_menu` VALUES ('8c72a6439b9d11e8a32d1831bf4e61cf', 'd2141675914911e88d081831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,', '角色管理', '2', 'menu', 'modules/sysRole.html', 'main', null, null, '', '1', 'pc', null, '2018-08-09 14:29:18', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('8c9404579b9d11e8a32d1831bf4e61cf', '8c72a6439b9d11e8a32d1831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,a323c4da9b9811e8a32d1831bf4e61cf,dfac6a329b9c11e8a32d1831bf4e61cf,f656a8629b9c11e8a32d1831bf4e61cf,0da2aff19b9d11e8a32d1831bf4e61cf,8c72a6439b9d11e8a32d1831bf4e61cf,', '查看', '3', 'action', null, null, null, 'sysRole:list,sysRole:info', '', null, 'pc', null, '2018-08-09 14:29:19', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('8c9de2dd9b9d11e8a32d1831bf4e61cf', '8c72a6439b9d11e8a32d1831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,a323c4da9b9811e8a32d1831bf4e61cf,dfac6a329b9c11e8a32d1831bf4e61cf,f656a8629b9c11e8a32d1831bf4e61cf,0da2aff19b9d11e8a32d1831bf4e61cf,8c72a6439b9d11e8a32d1831bf4e61cf,', '修改或新增', '3', 'action', null, null, null, 'sysRole:save', '', null, 'pc', null, '2018-08-09 14:29:19', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('8ca336eb9b9d11e8a32d1831bf4e61cf', '8c72a6439b9d11e8a32d1831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,a323c4da9b9811e8a32d1831bf4e61cf,dfac6a329b9c11e8a32d1831bf4e61cf,f656a8629b9c11e8a32d1831bf4e61cf,0da2aff19b9d11e8a32d1831bf4e61cf,8c72a6439b9d11e8a32d1831bf4e61cf,', '删除', '3', 'action', null, null, null, 'sysRole:del', '', null, 'pc', null, '2018-08-09 14:29:19', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('beb0b37fc9054801b83cdbaca69160de', '435243de9fa311e8bc2b305a3a74ee41', 'pc,d2141675914911e88d081831bf4e61cf,', '系统数据编辑', '3', 'action', '', 'main', '', 'sysDictType:sysData:edit', '', '4', 'pc', '6b1a14e23daa4728b5d0385b17844796', '2018-08-15 16:29:16', null, null, '\0', '');
-INSERT INTO `sys_menu` VALUES ('c7d207f7a4eb11e8bc2b305a3a74ee41', '74cf9af8bff5489d8468e8414b12f6e4', 'pc,74cf9af8bff5489d8468e8414b12f6e4,', '项目管理', '2', 'menu', 'modules/project.html', 'main', '', '', '', '1', 'pc', '', '2018-08-21 10:41:21', '671973208fae11e88d081831bf4e61cf', '2018-08-21 10:47:13', '\0', '');
-INSERT INTO `sys_menu` VALUES ('c7e15b6aa4eb11e8bc2b305a3a74ee41', 'c7d207f7a4eb11e8bc2b305a3a74ee41', 'c7d207f7a4eb11e8bc2b305a3a74ee41', '查看', '3', 'action', null, null, null, 'project:list,project:info', '', null, 'pc', null, '2018-08-21 10:41:21', null, null, '\0', null);
-INSERT INTO `sys_menu` VALUES ('c7e98071a4eb11e8bc2b305a3a74ee41', 'c7d207f7a4eb11e8bc2b305a3a74ee41', 'c7d207f7a4eb11e8bc2b305a3a74ee41', '修改或新增', '3', 'action', null, null, null, 'project:save', '', null, 'pc', null, '2018-08-21 10:41:21', null, null, '\0', null);
-INSERT INTO `sys_menu` VALUES ('c7f11b56a4eb11e8bc2b305a3a74ee41', 'c7d207f7a4eb11e8bc2b305a3a74ee41', 'c7d207f7a4eb11e8bc2b305a3a74ee41', '删除', '3', 'action', null, null, null, 'project:del', '', null, 'pc', null, '2018-08-21 10:41:21', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('c98bb4d6a02811e8bc2b305a3a74ee41', 'd2141675914911e88d081831bf4e61cf', 'pc,d2141675914911e88d081831bf4e61cf,', '用户管理', '2', 'menu', 'modules/sysUser.html', 'main', null, null, '', '1', 'pc', null, '2018-08-15 09:15:32', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('c99b1edaa02811e8bc2b305a3a74ee41', 'c98bb4d6a02811e8bc2b305a3a74ee41', 'pc,c98bb4d6a02811e8bc2b305a3a74ee41,', '查看', '3', 'action', null, null, null, 'sysUser:list,sysUser:info', '', null, 'pc', null, '2018-08-15 09:15:32', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('c9a25006a02811e8bc2b305a3a74ee41', 'c98bb4d6a02811e8bc2b305a3a74ee41', 'pc,c98bb4d6a02811e8bc2b305a3a74ee41,', '修改或新增', '3', 'action', null, null, null, 'sysUser:save', '', null, 'pc', null, '2018-08-15 09:15:32', null, null, '\0', null);
@@ -260,34 +284,6 @@ INSERT INTO `sys_menu` VALUES ('f8d1e7239ede11e8a7a81831bf4e61cf', 'f8b1865f9ede
 INSERT INTO `sys_menu` VALUES ('f8d9d2b19ede11e8a7a81831bf4e61cf', 'f8b1865f9ede11e8a7a81831bf4e61cf', 'pc,f8b1865f9ede11e8a7a81831bf4e61cf,', '修改或新增', '3', 'action', null, null, null, 'sysMenu:save', '', null, 'pc', null, '2018-08-13 17:55:06', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('f8e178929ede11e8a7a81831bf4e61cf', 'f8b1865f9ede11e8a7a81831bf4e61cf', 'pc,f8b1865f9ede11e8a7a81831bf4e61cf,', '删除', '3', 'action', null, null, null, 'sysMenu:del', '', null, 'pc', null, '2018-08-13 17:55:06', null, null, '\0', null);
 INSERT INTO `sys_menu` VALUES ('fbdec5db87d24bc0911738fc9d07176d', 'pc_top', 'pc_top,', '顶菜单2', '1', 'menu_dir', '', 'main', '', '', '', null, 'pc_top', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:32:46', null, null, '\0', '');
-
--- ----------------------------
--- Table structure for sys_role
--- ----------------------------
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role` (
-  `id` varchar(32) NOT NULL COMMENT 'id-uuid',
-  `role_name` varchar(64) DEFAULT NULL COMMENT '角色名',
-  `role_code` varchar(32) DEFAULT NULL COMMENT '角色 code',
-  `role_type` varchar(32) DEFAULT NULL COMMENT '角色类型',
-  `data_scope` int(2) DEFAULT NULL COMMENT '数据范围',
-  `useable` bit(1) DEFAULT b'1' COMMENT '是否可用',
-  `create_by` varchar(32) DEFAULT NULL COMMENT '创建者id',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(32) DEFAULT NULL COMMENT '修改者id',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `del_flag` bit(1) DEFAULT b'0' COMMENT '删除标识：0-未删除，1-删除',
-  `remark` varchar(500) DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `role_code_key` (`role_code`) USING BTREE,
-  UNIQUE KEY `role_name_key` (`role_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
-
--- ----------------------------
--- Records of sys_role
--- ----------------------------
-INSERT INTO `sys_role` VALUES ('9e1d30d1914911e88d081831bf4e61cf', '超级管理员', 'super_admin', '系统管理员', '1', '', '', '2018-07-27 11:03:50', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', '\0', 'hahah');
-INSERT INTO `sys_role` VALUES ('a3a9e079592047648d3f4f80c0461302', '测试角色', 'test', '测试', '1', '', '671973208fae11e88d081831bf4e61cf', '2018-08-13 17:41:26', null, null, '', '');
 
 -- ----------------------------
 -- Table structure for sys_role_menu
@@ -313,49 +309,45 @@ CREATE TABLE `sys_role_menu` (
 -- ----------------------------
 -- Records of sys_role_menu
 -- ----------------------------
-INSERT INTO `sys_role_menu` VALUES ('0180ff920fc14cc7b9989fa5a3dee9a6', '9e1d30d1914911e88d081831bf4e61cf', 'f8d1e7239ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('02a9ee2b30c4482fb8b882aa08299405', '9e1d30d1914911e88d081831bf4e61cf', '8c9de2dd9b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('087618faea36460e924b2b89a5bb5599', '9e1d30d1914911e88d081831bf4e61cf', 'c99b1edaa02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('15331c97c208462e8f658610fea89fc7', '9e1d30d1914911e88d081831bf4e61cf', '43ac45b59fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('2586e6651815445b8d932fd75cd543f5', '9e1d30d1914911e88d081831bf4e61cf', '4dd61a5394a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('284633f566164b9f8fd0dc27e388aaa5', '9e1d30d1914911e88d081831bf4e61cf', 'f8d9d2b19ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('2e38b6c19ac2411dbe822095803274a8', '9e1d30d1914911e88d081831bf4e61cf', 'c7e15b6aa4eb11e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('32e86737ee934882aa8bc2640201bc77', '9e1d30d1914911e88d081831bf4e61cf', 'fbdec5db87d24bc0911738fc9d07176d', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('385e2b05aa1e4b1996d3bcc056443dc6', '9e1d30d1914911e88d081831bf4e61cf', '01c62d29dbff4dda90a8931c883ec04d', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('3dc242bfe94146da9a34e96af2dcbf3c', '9e1d30d1914911e88d081831bf4e61cf', '5ea78c8394a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('3eb3e7f91e44404c8223c613d9049bba', '9e1d30d1914911e88d081831bf4e61cf', '290a1d639fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('41679acfb17641faba5f0e51557c9f3d', '9e1d30d1914911e88d081831bf4e61cf', 'c98bb4d6a02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('419a5278e3c1402fb6250ada0263b7b1', '9e1d30d1914911e88d081831bf4e61cf', 'c9aa63c3a02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('443cdc00fca24a7c80a03f4ff43faaae', '9e1d30d1914911e88d081831bf4e61cf', '8ca336eb9b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('5d2d4733872141a38dff7fcb37bf9806', '9e1d30d1914911e88d081831bf4e61cf', '54c29b4a94a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('62f94589d5a748909578231c54ebfb85', '9e1d30d1914911e88d081831bf4e61cf', 'f8e178929ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('65128edeb5384f1290f28b8ca9bf6aa6', '9e1d30d1914911e88d081831bf4e61cf', '2957820d9fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('68967fcce777465ebb0ee9d8d5670f52', '9e1d30d1914911e88d081831bf4e61cf', '2950fa539fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('6af44b44c9b449208c439e786fce1a95', '9e1d30d1914911e88d081831bf4e61cf', 'c9a25006a02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('6d69a69b94f040c28f88dabf42fd70b5', '9e1d30d1914911e88d081831bf4e61cf', '5ae1497e5f12475e8179f561e1f29148', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('70a396064d91494fb27da1c383498722', '9e1d30d1914911e88d081831bf4e61cf', '74cf9af8bff5489d8468e8414b12f6e4', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('73000a3a5e2b466ea93db10eb51a9351', '9e1d30d1914911e88d081831bf4e61cf', '04a59c6ba44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('7a1f88d28a294817bf5a78254648334d', '9e1d30d1914911e88d081831bf4e61cf', '435243de9fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('7f1b452f52bd423bafd00cd64342a0f0', '9e1d30d1914911e88d081831bf4e61cf', '8c72a6439b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('8238c860cfc84962981ace0ca45a2a70', '9e1d30d1914911e88d081831bf4e61cf', '513f5ed794a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('84d76a2a661d45edbdb7734688a8ad91', '9e1d30d1914911e88d081831bf4e61cf', '04c58025a44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('8de66783468a47d890dc22ff6b846cb7', '9e1d30d1914911e88d081831bf4e61cf', 'f8b1865f9ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('945ba281192f4d5a8c61d3ea2e6759fe', '9e1d30d1914911e88d081831bf4e61cf', 'c7d207f7a4eb11e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('992eda7b27674547a1e13cef028936af', '9e1d30d1914911e88d081831bf4e61cf', '8c9404579b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('9958c2c7d1f94bb3b9f321dc155722d9', '9e1d30d1914911e88d081831bf4e61cf', '04bfbff5a44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('9c1bcad74f0841bdadc68ca6ff88b67f', '9e1d30d1914911e88d081831bf4e61cf', '31cb94a894a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('9ce4046145fd4e81ae157dfa8d76aefa', '9e1d30d1914911e88d081831bf4e61cf', 'beb0b37fc9054801b83cdbaca69160de', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('9eae96161e124b81bf472140404577de', '9e1d30d1914911e88d081831bf4e61cf', 'c7e98071a4eb11e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('b2f45e23528c4b11baaa9410a05e73ce', '9e1d30d1914911e88d081831bf4e61cf', '58194d3694a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('b524595ee5834ad6a7f5e5ca177622ca', '9e1d30d1914911e88d081831bf4e61cf', '43a3cea59fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('c15419feb9cc47f9898aa1cea50c3a5e', '9e1d30d1914911e88d081831bf4e61cf', '295e9cba9fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('c2fc1e4bec114d1188385bbfdf018668', '9e1d30d1914911e88d081831bf4e61cf', '48e9e1ff94a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('c94d001f600247d9a30d397233ea0edf', '9e1d30d1914911e88d081831bf4e61cf', '439b3c3b9fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('ed365e9722d042429c7eea0e72a1f1bc', '9e1d30d1914911e88d081831bf4e61cf', '04cb7f7ca44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('f203e975959642968b16dd82857e027c', '9e1d30d1914911e88d081831bf4e61cf', 'c7f11b56a4eb11e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('f216c7c7d0e2400b831fd99059e8cd1a', '9e1d30d1914911e88d081831bf4e61cf', 'd2141675914911e88d081831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('f31fff8eb07c4222af07c5e1945f0a19', '9e1d30d1914911e88d081831bf4e61cf', '4553e05494a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
-INSERT INTO `sys_role_menu` VALUES ('f4d839b54e144f3ab33cd2edbc5ae3a6', '9e1d30d1914911e88d081831bf4e61cf', '5b41cd1194a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-27 14:33:04', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('01ad78c1bd174834af0a8580db5a0e05', '9e1d30d1914911e88d081831bf4e61cf', '48e9e1ff94a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('038040f6441246e48197661a86694dff', '9e1d30d1914911e88d081831bf4e61cf', '8c9404579b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('064eb45d108045ce8bc8fa1631925b71', '9e1d30d1914911e88d081831bf4e61cf', '2b6b6207a8504061823f63120d8ac8d6', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('0ca3047111174fac82f86369fe2a7ac7', '9e1d30d1914911e88d081831bf4e61cf', '54c29b4a94a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('160c7bf3cbe0455c991ae03ddaababae', '9e1d30d1914911e88d081831bf4e61cf', '8c72a6439b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('17500386582a4383bd0e325c76e9422f', '9e1d30d1914911e88d081831bf4e61cf', '295e9cba9fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('21b689f9a08e40468e1d85968dedea53', '9e1d30d1914911e88d081831bf4e61cf', '8c9de2dd9b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('273aba955a1c47f3b17dc61a6291e9ea', '9e1d30d1914911e88d081831bf4e61cf', 'fbdec5db87d24bc0911738fc9d07176d', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('27dffde01f8e4f8b86b0f586724c0d20', '9e1d30d1914911e88d081831bf4e61cf', '513f5ed794a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('2e8e2626c6f145d9acd3f9a223cb63cc', '9e1d30d1914911e88d081831bf4e61cf', '01c62d29dbff4dda90a8931c883ec04d', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('3446ddb8c54d49dfb04ec0c43bdc2640', '9e1d30d1914911e88d081831bf4e61cf', 'c9a25006a02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('3abcb836f4d9475da500e9345a039e49', '9e1d30d1914911e88d081831bf4e61cf', '8ca336eb9b9d11e8a32d1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('4031c7879d244fc8b8acd3a5c1159d50', '9e1d30d1914911e88d081831bf4e61cf', 'c99b1edaa02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('440d7daefa454d28a1221c445d0015f7', '9e1d30d1914911e88d081831bf4e61cf', '290a1d639fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('45b137711374420d82d13af8bce97774', '9e1d30d1914911e88d081831bf4e61cf', 'c9aa63c3a02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('46ccbe5aa1a44238b541a91ce44cbe44', '9e1d30d1914911e88d081831bf4e61cf', 'f8e178929ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('4826ec6d83844b15bf6bc2b2028a2a90', '9e1d30d1914911e88d081831bf4e61cf', '04c58025a44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('4ea01cec49e44e379538dcebb318731f', '9e1d30d1914911e88d081831bf4e61cf', '58194d3694a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('6386f3fc2f77498aaa72803ae96bc4f6', '9e1d30d1914911e88d081831bf4e61cf', '5b41cd1194a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('654cd20489334c0b940fa4bb53254cc6', '9e1d30d1914911e88d081831bf4e61cf', '439b3c3b9fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('717d9dc79ef8422580b5601d3abf84a1', '9e1d30d1914911e88d081831bf4e61cf', '31cb94a894a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('724c238a97eb436089aa54bd875c8da4', '9e1d30d1914911e88d081831bf4e61cf', '04cb7f7ca44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('78eaf68fcfd4430c90656380fa9d0d09', '9e1d30d1914911e88d081831bf4e61cf', 'beb0b37fc9054801b83cdbaca69160de', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('7a57e679cc974e6f8577631da95bbd46', '9e1d30d1914911e88d081831bf4e61cf', '2957820d9fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('88dff3b58d2542e1b281fbeb6808cc24', '9e1d30d1914911e88d081831bf4e61cf', 'c98bb4d6a02811e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('956e3b6b7290469db50716288b4e3a4f', '9e1d30d1914911e88d081831bf4e61cf', '04bfbff5a44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('98d1d9ac87cd4619b14e7ea1f04357a8', '9e1d30d1914911e88d081831bf4e61cf', '04a59c6ba44611e8913c1831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('9c9f6afb621e43aca591c7221ce503d7', '9e1d30d1914911e88d081831bf4e61cf', 'f8d9d2b19ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('9edc356fa1c64129805b9a1592535ded', '9e1d30d1914911e88d081831bf4e61cf', '4dd61a5394a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('b4107b67a8664a48bc50c2d1df74a3fa', '9e1d30d1914911e88d081831bf4e61cf', '4553e05494a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('b997d472ef6542a180358ac5c37a872a', '9e1d30d1914911e88d081831bf4e61cf', 'd2141675914911e88d081831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('cacd284b93594815a4d7a08f6a08baca', '9e1d30d1914911e88d081831bf4e61cf', '2950fa539fa911e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('cbad9c2966eb43a69598c45f54a4de92', '9e1d30d1914911e88d081831bf4e61cf', '435243de9fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('cefbc45e91204a6bb6525eb3306b897c', '9e1d30d1914911e88d081831bf4e61cf', 'f8b1865f9ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('d10a21c10dde4f64964fd56d111097d5', '9e1d30d1914911e88d081831bf4e61cf', '43a3cea59fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('de16129fed4e4a0f99473cd70fdd7f3a', '9e1d30d1914911e88d081831bf4e61cf', 'f8d1e7239ede11e8a7a81831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('dfcba00a5abc4e36834d0362da682a9e', '9e1d30d1914911e88d081831bf4e61cf', '5ea78c8394a311e893b21831bf4e61cf', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('f0a6b649cadb48fbb17201f910fd3778', '9e1d30d1914911e88d081831bf4e61cf', '5ae1497e5f12475e8179f561e1f29148', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
+INSERT INTO `sys_role_menu` VALUES ('f61b601115cb489b8f80f6ed8d55db35', '9e1d30d1914911e88d081831bf4e61cf', '43ac45b59fa311e8bc2b305a3a74ee41', '671973208fae11e88d081831bf4e61cf', '2018-08-30 10:30:49', null, null, '\0', null);
 
 -- ----------------------------
 -- Table structure for sys_user
