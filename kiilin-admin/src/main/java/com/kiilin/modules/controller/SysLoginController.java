@@ -64,6 +64,10 @@ public class SysLoginController {
     public ModelAndView logout() {
 
 
+        // 删除权限缓存 防止出现脏数据
+        String userId = ShiroUtils.getUserId();
+        redisUtils.delete(RedisKeys.PERMS_LIST + userId);
+
         ShiroUtils.logout();
 
         return new ModelAndView("redirect:/");

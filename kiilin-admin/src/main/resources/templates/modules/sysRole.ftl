@@ -63,7 +63,8 @@
             default-expand-all
             node-key="id"
             ref="tree"
-            :check-strictly="check_strictly"
+            :check-strictly="true"
+            @check-change="selectMenu"
 
             highlight-current
             :props="defaultProps">

@@ -47,17 +47,25 @@
       background-color: #fff;
     }
 
+
     #left_menu{
-      background: linear-gradient(to bottom, #082F48, #105A8A);
-      height: 100%;
+      /*background: linear-gradient(to bottom, #082F48, #105A8A);*/
+      /*height: 100%;*/
+
+      border: none;
     }
 
     #left_aside{
+      background: linear-gradient(to bottom, #082F48, #105A8A);
       width: auto !important;
+      transition:width 2s;
+      -moz-transition:width 2s; /* Firefox 4 */
+      -webkit-transition:width 2s; /* Safari and Chrome */
+      -o-transition:width 2s; /* Opera */
     }
 
     #left_menu:not(.el-menu--collapse){
-      width: 300px;
+      width: 250px;
     }
 
     .menu_collapse_btn{
@@ -74,6 +82,26 @@
       border: 1px #909399 solid;
       margin-right: 10px;
     }
+
+    .user_photo_left {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px #909399 solid;
+      display: block;
+      margin: 64px auto 32px;
+
+      transition:width 300ms, height 300ms, margin-top 300ms;
+      -moz-transition:width 300ms, height 300ms margin-top 300ms; /* Firefox 4 */
+      -webkit-transition:width 300ms, height 300ms margin-top 300ms; /* Safari and Chrome */
+      -o-transition:width 300ms, height 300ms margin-top 300ms; /* Opera */
+
+    }
+
+    .user_card {
+      text-align: center;
+      color: white;
+    }
   </style>
 
 </head>
@@ -84,6 +112,14 @@
   <el-container>
     <#-- 菜单 -->
     <el-aside id="left_aside">
+
+      <div class="user_card">
+        <img
+          class="user_photo_left"
+          :src="loginUser.photo || 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1534400326565&di=12fcface96be98e71100ddd97242d187&imgtype=0&src=http%3A%2F%2Fimg1.touxiang.cn%2Fuploads%2F20140512%2F12-085354_583.jpg'"
+        >
+        <p v-show="!isCollapse">{{loginUser.username}}</p>
+      </div>
       <el-menu
         id="left_menu"
         :default-active="activeIndex"
@@ -92,6 +128,7 @@
         @close="mainMenuClose"
         @select="mainMenuSelect"
         background-color="#082F48"
+
         text-color="#fff"
         unique-opened
         active-text-color="#ffd04b"
@@ -276,6 +313,21 @@
             animateTo: 90,
             easing: $.easing.easeInOutExpo
         });
+
+
+        if (this.isCollapse) {
+          $(".user_photo_left").css({
+            "width": "36px",
+            "height": "36px",
+            "margin-top": "36px",
+          });
+        } else {
+          $(".user_photo_left").css({
+            "width": "64px",
+            "height": "64px",
+            "margin-top": "64px",
+          });
+        }
       },
       mainMenuOpen: function (key, keyPath) {
       },

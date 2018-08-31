@@ -46,12 +46,12 @@ var columns = [
     width: "4%"
   },
 
-  {
-    label: '所属部门',
-    data: "deptId",
-    name: "dept_id",
-    width: "4%"
-  },
+  // {
+  //   label: '所属部门',
+  //   data: "deptId",
+  //   name: "dept_id",
+  //   width: "4%"
+  // },
 
 
   {
@@ -246,7 +246,8 @@ var vm = new Vue({
         // sex: null,
         userType: null,
         remark: null,
-        userRoleList: []
+        userRoleList: [],
+        deptId: ''
       };
       vm.edit_flag = true;
       vm.submiting = false;
@@ -318,6 +319,7 @@ var vm = new Vue({
         data: {userId: userId},
         dataType: "json",
         type: "post",
+        async: false,
         success: function (_result) {
           if (_result.success) {
             if(_result.data.length > 0){

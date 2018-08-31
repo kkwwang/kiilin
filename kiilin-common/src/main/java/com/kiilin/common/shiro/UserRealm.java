@@ -3,7 +3,6 @@ package com.kiilin.common.shiro;
 
 import com.kiilin.common.redis.RedisKeys;
 import com.kiilin.common.redis.RedisUtils;
-import com.kiilin.modules.pojo.dto.SysUser;
 import com.kiilin.modules.pojo.entity.SysUserEntity;
 import com.kiilin.modules.pojo.enums.dict.UserStatusEnum;
 import com.kiilin.modules.service.SysUserService;
@@ -18,7 +17,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,23 +83,29 @@ public class UserRealm extends AuthorizingRealm {
             String key = RedisKeys.PERMS_LIST + user.getId();
 
             // 登录完成后将权限放入redis
-            List<String> permsList = (List<String>) redisUtils.get(key, List.class);
+            Set<String> permsSet = (Set<String>) redisUtils.get(key, Set.class);
 
             // 权限为空时登出改账号
-            if (null == permsList) {
+            if (null == permsSet) {
+                permsSet = new HashSet<>();
                 // 刷新权限
-                permsList = userService.queryAllPerms(user.getId());
-                // 保存到redis中
-                redisUtils.set(key, permsList);
-            }
+                List<String> permsList = userService.queryAllPerms(user.getId());
 
-            //用户权限列表
-            Set<String> permsSet = new HashSet<>();
-            for (String perms : permsList) {
-                if (StringUtils.isBlank(perms)) {
-                    continue;
+                //用户权限列表
+                for (String perms : permsList) {
+                    if (StringUtils.isNotBlank(perms)) {
+                        String[] args = perms.trim().split(",");
+                        for (String arg : args) {
+                            if (StringUtils.isNotBlank(arg)) {
+                                permsSet.add(arg.trim());
+                            }
+                        }
+                    }
                 }
-                permsSet.addAll(Arrays.asList(perms.trim().split(",")));
+
+                // 保存到redis中
+                redisUtils.set(key, permsSet);
+
             }
 
             SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();

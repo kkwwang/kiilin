@@ -64,7 +64,7 @@ var vm = new Vue({
   data: {
     // 编辑标识，用户切换表单和表格
     edit_flag: false,
-    check_strictly: true,
+    // check_strictly: true,
     // 提交中的标识。用户控制提交按钮不可点击
     submiting: false,
     // 查询条件，查询时将条件放入该对象即可
@@ -129,7 +129,7 @@ var vm = new Vue({
 
       vm.edit_flag = true;
       vm.submiting = false;
-      vm.check_strictly = false;
+      // vm.check_strictly = false;
       vm.userMenus = [];
       vm.setCheckedKeys(vm.userMenus);
       vm.getSysCodeList();
@@ -142,7 +142,7 @@ var vm = new Vue({
      */
     edit: function (id) {
       vm.submiting = false;
-      vm.check_strictly = true;
+      // vm.check_strictly = true;
 
       // 查询角色详情
       $.ajax({
@@ -168,6 +168,19 @@ var vm = new Vue({
       });
     },
 
+    selectMenu: function (data, checked) {
+      vm.checkedChilds(data.children, checked);
+    },
+    checkedChilds(childs, checked){
+      childs.map((item) => {
+        vm.$refs.tree.setChecked(item.id, checked);
+        if(item.children){
+          vm.checkedChilds(item.children, checked);
+        }
+      })
+
+    },
+
     getSysCodeList: function () {
       vm.menuTree = [];
       $.ajax({
@@ -175,6 +188,8 @@ var vm = new Vue({
         data: {type: "sys_code"},
         dataType: "json",
         type: "post",
+        async: false,
+
         success: function (_result) {
           if (_result.success) {
             $.each(_result.data, function (index, sysCode) {
@@ -222,13 +237,11 @@ var vm = new Vue({
         data: {id: id},
         dataType: "json",
         type: "post",
+        async: false,
         success: function (_result) {
           if (_result.success) {
             vm.userMenus = _result.data;
             vm.setCheckedKeys(vm.userMenus);
-            vm.$nextTick(function () {
-              vm.check_strictly = false;
-            })
           } else {
             alert(_result.error);
           }

@@ -36,12 +36,12 @@ public class AbstractServiceImpl<M extends AbstractDao<T>, T> extends ServiceImp
     }
 
     @Override
-    public DataTablePager<T> getPager(Map map) {
+    public DataTablePager getPager(Map map) {
         // map 转json
         JSONObject json = JSONObject.parseObject(JSONObject.toJSONString(map));
 
         // 反序列化
-        DataTablePager<T> pager = JSONObject.toJavaObject(json, DataTablePager.class);
+        DataTablePager pager = JSONObject.toJavaObject(json, DataTablePager.class);
         return pager;
     }
 

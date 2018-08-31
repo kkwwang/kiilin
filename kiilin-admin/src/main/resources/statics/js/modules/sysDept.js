@@ -69,7 +69,7 @@ var vm = new Vue({
     // 数据校验规则 文档：https://github.com/yiminghe/async-validator
     rules: {
       parentId: [
-        {required: true, message: '请选择上级部门', trigger: 'blur'}
+        {required: true, message: '请选择上级部门', trigger: 'change'}
       ],
       deptName: [
         {required: true, message: '请填写部门名称', trigger: 'blur'}
@@ -131,7 +131,8 @@ var vm = new Vue({
         deptName: null,
         deptCode: null,
         deptType: null,
-        remark: null
+        remark: null,
+        parentId: ''
       };
       vm.edit_flag = true;
       vm.submiting = false;

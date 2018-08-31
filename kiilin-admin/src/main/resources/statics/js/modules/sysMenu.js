@@ -196,7 +196,7 @@ var vm = new Vue({
       // 重置
       vm.formData = {
 
-        parentId: null,
+        parentId: '',
         parentName: null,
 
         parentIds: null,

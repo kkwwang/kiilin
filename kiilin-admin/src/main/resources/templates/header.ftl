@@ -94,7 +94,7 @@
         padding-left: 5px;
         padding-right: 5px;
         text-align: center;
-        vertical-align: middle;
+        vertical-align: middle !important;
       }
 
 

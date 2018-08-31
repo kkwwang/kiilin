@@ -22,7 +22,7 @@ public interface AbstractService<M extends AbstractDao<T>, T> extends IService<T
      * @param map
      * @return
      */
-    DataTablePager<T> getPager(Map map);
+    DataTablePager getPager(Map map);
 
     /**
      * 查询分页

@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ import java.util.Date;
  * @author wangkai
  */
 @Data
+@Accessors(chain = true)
 public class AbstractModel implements Serializable {
 
     /**
